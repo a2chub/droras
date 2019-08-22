@@ -48,9 +48,7 @@ def race_data():
 
 @app.route('/')
 def view():
-  global conn
-  h_id = conn.get("cur_heat")
-  return render_template('view.html', data= make_return_data(h_id) )
+  return app.send_static_file("index.html")
 
 def make_return_data(h_id):
   three_heat_data = [get_heat( int(h_id) -1 ), get_heat( h_id ), get_heat( int(h_id)+1 )]
