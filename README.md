@@ -16,7 +16,7 @@ sudo apt update
 sudo apt install redis-server
 ```
 
-
+アプリセットアップ
 ```
 git clone このリポジトリ
 cd リポジトリ
