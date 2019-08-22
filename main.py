@@ -43,6 +43,11 @@ def cur_heat():
   h_id = conn.get("cur_heat")
   return str( h_id.decode('utf-8') )
 
+@app.route('/api/get_race_data')
+def race_data():
+  race_data = json.dumps(make_heat(), indent=2, ensure_ascii=False)
+  return race_data
+
 @app.route('/')
 def view():
   global conn
