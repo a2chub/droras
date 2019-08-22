@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 
 from heat_list import make_heat, get_heat
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify
 from flask import send_from_directory
-import json
 import os
 
 from jdl_lib.webapp import start_sound
@@ -29,9 +28,9 @@ def main(h_id=1):
   conn.set("cur_heat", h_id)
   return render_template('index.html', data= make_return_data(h_id) )
 
-@app.route('/h/<h_id>')
+@app.route('/h/<int:h_id>')
 def api_heat(h_id=1):
-  return json.dumps( get_heat( h_id ), indent=2, ensure_ascii=False)
+  return jsonify(get_heat(h_id))
 
 @app.route('/api/start')
 def start():
@@ -40,19 +39,16 @@ def start():
 
 @app.route('/api/get_cur_heat')
 def cur_heat():
-  h_id = conn.get("cur_heat")
-  return str( h_id.decode('utf-8') )
+  h_id = int(conn.get("cur_heat"))
+  return jsonify({'id': h_id})
 
 @app.route('/api/get_race_data')
 def race_data():
-  race_data = json.dumps(make_heat(), indent=2, ensure_ascii=False)
-  return race_data
+  return jsonify(make_heat())
 
 @app.route('/')
 def view():
-  global conn
-  h_id = conn.get("cur_heat")
-  return render_template('view.html', data= make_return_data(h_id) )
+  return app.send_static_file("index.html")
 
 def make_return_data(h_id):
   three_heat_data = [get_heat( int(h_id) -1 ), get_heat( h_id ), get_heat( int(h_id)+1 )]
