@@ -31,13 +31,20 @@ python main.py
 ## API 仕様
 
 ### 現在フライト中のヒートID取得
+
 URL: `/api/get_cur_heat`
+
 Response: int文字列
 
 ### 開催中の全レースデータ取得
+
 URL: `/api/get_race_data`
+
 Response: ヒート毎のArrayが詰まった、LISTのJSON
-Sample：　```
+
+Sample：　
+
+```
 [
   [
     {
