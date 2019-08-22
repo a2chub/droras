@@ -39,15 +39,6 @@
            })
     }
 
-    function startRace(){
-      counter=setInterval(timer, 1000); //1000 will  run it every 1 second
-      console.info("start timer");
-      timer();
-      setTimeout(nextHeat, count * 1000, "nextHeat");
-      $.get("/api/start");
-    }
-
-
     function timer(){
       count = count - 1;
       if (count <= 0)

@@ -30,6 +30,6 @@ $(function () {
     heats = $(".heat")
     console.log(heats)
     updateCurrent()
-    setInterval(updateCurrent, 3000)
+    setInterval(updateCurrent, 20000)
   })
 })
