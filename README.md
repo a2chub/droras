@@ -9,6 +9,13 @@ Drone Race Random Start System
 
 
 ## インストール
+事前準備： redis-server
+
+```
+sudo apt update
+sudo apt install redis-server
+```
+
 
 ```
 git clone このリポジトリ
