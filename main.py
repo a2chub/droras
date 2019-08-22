@@ -5,7 +5,7 @@ from flask import Flask, render_template
 from flask import send_from_directory
 import json
 
-from lib.webapp import start_sound
+from jdl-lib.webapp import start_sound
 
 app = Flask(__name__)
 app.debug = True
