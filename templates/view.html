@@ -22,23 +22,21 @@
     <script>
      var count = 120;
      $(function(){
-
         $("#about_timer").val( count );
         $(document).keypress(function(e){
-            console.info(e);
-              if(e.code === "Digit1" || e.code==="Numpad1"){ startRace() };
-              if(e.code === "Digit2" || e.code==="Numpad2"){ window.location.href = "/{{ data.prev }}"; }
-              if(e.code === "Digit3" || e.code==="Numpad3"){ window.location.href = "/{{ data.next }}"; }
-          });
-        $("#btn_start").on("click", function(){ startRace() });
-        $("#btn_prev").on("click", function(){ console.info("btn prev"); window.location.href = "/{{ data.prev }}"; });
-        $("#btn_next").on("click", function(){ nextHeat()  });
     });
 
-    function nextHeat(){
-      //clearInterval(counter);
-      console.info("btn next");
-      window.location.href = "/{{ data.next }}";
+        function update_heat(){
+        //clearInterval(counter);
+        $.ajax({
+          type: 'GET',
+          url: '/api/get_cur_heat',
+          cache: false,
+          success: function(json){
+
+                     window.location.href = "/";
+                                 }
+           })
     }
 
     function startRace(){
@@ -92,13 +90,8 @@
 
       </p>
       <hr>
-        <p>
-        <button classx="btn btn-lg" id="btn_start">スタート音 (1)</button>
-        <button classx="btn btn-lg" id="btn_prev" >前のヒート(2)</button>
-        <button classx="btn btn-lg" id="btn_next" >次のヒート(3)</button>
-        <br>
         <input type=text id="about_timer">sec
-        </p>
+      </p>
       </div>
 
     </div>
