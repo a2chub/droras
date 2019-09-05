@@ -3,6 +3,7 @@
 from heat_list import make_heat, get_heat
 from flask import Flask, render_template, jsonify
 from flask import send_from_directory
+from flask_cors import CORS
 import os
 
 from jdl_lib.webapp import start_sound
@@ -10,7 +11,8 @@ from jdl_lib.webapp import start_sound
 import redis
 REDIS_HOST = "localhost"
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='')
+CORS(app)
 app.debug = True
 
 
