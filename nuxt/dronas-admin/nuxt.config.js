@@ -48,6 +48,7 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
+    baseURL: ""
   },
   /*
   ** Build configuration
@@ -58,5 +59,8 @@ export default {
     */
     extend (config, ctx) {
     }
+  },
+  generate: {
+    dir: "../../static"
   }
 }
