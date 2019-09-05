@@ -1,6 +1,6 @@
-# dronas-admin
+# droras-admin
 
-> dronas admin app
+> droras admin app
 
 ## Build Setup
 

@@ -1,7 +1,7 @@
 {
-  "name": "dronas-admin",
+  "name": "droras-admin",
   "version": "1.0.0",
-  "description": "dronas admin app",
+  "description": "droras admin app",
   "author": "Saqoosha",
   "private": true,
   "scripts": {
