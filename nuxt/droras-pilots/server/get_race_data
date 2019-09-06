@@ -1,0 +1,123 @@
+[
+  [
+    {
+      "JDL_ID": "J17026",
+      "class": "Open",
+      "heat": "1",
+      "name": "\u5c71\u5d0e \u9244\u5175"
+    },
+    {
+      "JDL_ID": "J19253",
+      "class": "Open",
+      "heat": "1",
+      "name": "\u6960\u672c \u7adc\u4e5f"
+    },
+    {
+      "JDL_ID": "J17032",
+      "class": "Open",
+      "heat": "1",
+      "name": "\u5c0f\u6c60 \u5353\u4e09"
+    }
+  ],
+  [
+    {
+      "JDL_ID": "J19252",
+      "class": "Open",
+      "heat": "2",
+      "name": "\u897f\u8107 \u614e\u4e00"
+    },
+    {
+      "JDL_ID": "J19250",
+      "class": "Open",
+      "heat": "2",
+      "name": "\u6e05\u6c34 \u53cb\u7406\u9999"
+    },
+    {
+      "JDL_ID": "J19249",
+      "class": "Open",
+      "heat": "2",
+      "name": "\u91cd\u5149 \u771f\u543e"
+    }
+  ],
+
+  [
+    {
+      "JDL_ID": "J17053",
+      "class": "Expert",
+      "heat": "11",
+      "name": "\u5ddd\u539f \u4fca\u6d69"
+    },
+    {
+      "JDL_ID": "J19243Open",
+      "class": "Open",
+      "heat": "11",
+      "name": "\u4e0a\u5730 \u548c\u61b2"
+    },
+    {
+      "JDL_ID": "J19213",
+      "class": "Expert",
+      "heat": "11",
+      "name": "\u6728\u8107 \u6587\u88d5"
+    }
+  ],
+  [
+    {
+      "JDL_ID": "J17009",
+      "class": "Expert",
+      "heat": "12",
+      "name": "\u4e2d\u6751 \u6566"
+    },
+    {
+      "JDL_ID": "J17023",
+      "class": "Expert",
+      "heat": "12",
+      "name": "\u677e\u6a4b \u4f38\u884c"
+    },
+    {
+      "JDL_ID": "J19228",
+      "class": "Expert",
+      "heat": "12",
+      "name": "\u9f4b\u85e4 \u4e09\u4f73"
+    }
+  ],
+  [
+    {
+      "JDL_ID": "J17030",
+      "class": "Pro",
+      "heat": "17",
+      "name": "\u5ca1 \u8056\u7ae0"
+    },
+    {
+      "JDL_ID": "\u7121\u3057",
+      "class": "",
+      "heat": "17",
+      "name": "\u7121\u3057"
+    },
+    {
+      "JDL_ID": "J17049",
+      "class": "Pro",
+      "heat": "17",
+      "name": "\u52a0\u85e4 \u548c\u5e78"
+    }
+  ],
+  [
+    {
+      "JDL_ID": "J17007",
+      "class": "Pro",
+      "heat": "20",
+      "name": "\u9ad8\u6a4b \u4ea8"
+    },
+    {
+      "JDL_ID": "J17070",
+      "class": "Pro",
+      "heat": "20",
+      "name": "\u4e0a\u95a2 \u98a8\u96c5"
+    },
+    {
+      "JDL_ID": "J17043",
+      "class": "Pro",
+      "heat": "20 ",
+      "name": "\u9ad8\u68a8 \u667a\u6a39"
+    }
+  ]
+]

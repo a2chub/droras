@@ -1,0 +1,23 @@
+{
+  "[javascript]": {
+    "editor.tabSize": 2
+  },
+  "[python]": {
+    "editor.tabSize": 4
+  },
+  "eslint.validate": [{
+      "language": "vue",
+      "autoFix": true
+    },
+    {
+      "language": "javascript",
+      "autoFix": true
+    }
+  ],
+  "eslint.autoFixOnSave": true,
+  "prettier.eslintIntegration": true,
+  "vetur.format.defaultFormatter.js": "prettier-eslint",
+  "editor.formatOnSave": true,
+  "editor.detectIndentation": false,
+  "vetur.format.defaultFormatter.html": "prettier"
+}
