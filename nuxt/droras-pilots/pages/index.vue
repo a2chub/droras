@@ -26,5 +26,15 @@
 </template>
 
 <script>
-export default {}
+import io from 'socket.io-client'
+
+const socket = io(process.env.WS_URL)
+
+export default {
+  mounted () {
+    socket.on('update-current', (message) => {
+      this.$store.commit('setCurrent', message.id)
+    })
+  }
+}
 </script>

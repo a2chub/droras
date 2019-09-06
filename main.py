@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 
 import os
+import json
+import urllib.request
+
 from flask import Flask, render_template, jsonify, send_from_directory
 from flask_cors import CORS
 
@@ -26,6 +29,7 @@ def main(heat_index=1):
     if heat_index > len(heat_data):
         heat_index = 1
     current_heat_index = heat_index
+    send_current_heat()
     return render_template('index.html', data=make_return_data(heat_index))
 
 
@@ -73,5 +77,28 @@ def make_return_data(heat_index):
     return ret
 
 
+def send_heat_data():
+    url = 'http://localhost:3000/api/upload-heat-data'
+    headers = {
+        'Content-Type': 'application/json',
+    }
+    req = urllib.request.Request(url, json.dumps(make_heat()).encode(), headers)
+    with urllib.request.urlopen(req) as res:
+        body = res.read()
+        print(body)
+
+def send_current_heat():
+    url = 'http://localhost:3000/api/set-current-heat'
+    params = {
+      'id': current_heat_index
+    }
+    req = urllib.request.Request('{}?{}'.format(
+        url, urllib.parse.urlencode(params)))
+    with urllib.request.urlopen(req) as res:
+        body = res.read()
+        print(body)
+
+
 if __name__ == '__main__':
+    send_heat_data()
     app.run(host="0.0.0.0", port=8080)
