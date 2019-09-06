@@ -1,15 +1,13 @@
 #!/usr/bin/env python3
 
-from heat_list import make_heat, get_heat
-from flask import Flask, render_template, jsonify
-from flask import send_from_directory
-from flask_cors import CORS
 import os
+from flask import Flask, render_template, jsonify, send_from_directory
+from flask_cors import CORS
 
 from jdl_lib.webapp import start_sound
+from heat_list import make_heat, get_heat
 
-import redis
-REDIS_HOST = "localhost"
+current_heat = 0
 
 app = Flask(__name__, static_url_path='')
 CORS(app)
@@ -21,19 +19,13 @@ def root():
     return app.send_static_file("index.html")
 
 
-@app.route('/favicon.ico')
-def favicon():
-    return send_from_directory(os.path.join(app.root_path, 'static'),
-                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
-
-
-@app.route('/<h_id>')
+@app.route('/<int:h_id>')
 def main(h_id=1):
-    global conn
+    global current_heat
     heat_data = make_heat()
-    if int(h_id) > len(heat_data):
+    if h_id > len(heat_data):
         h_id = 1
-    conn.set("cur_heat", h_id)
+    current_heat = h_id
     return render_template('index.html', data=make_return_data(h_id))
 
 
@@ -50,8 +42,7 @@ def start():
 
 @app.route('/api/get_cur_heat')
 def cur_heat():
-    h_id = int(conn.get("cur_heat"))
-    return jsonify({'id': h_id})
+    return jsonify({'id': current_heat})
 
 
 @app.route('/api/get_race_data')
@@ -82,12 +73,5 @@ def make_return_data(h_id):
     return ret
 
 
-def redis_setup():
-    global REDIS_HOST
-    conn = redis.StrictRedis(host=REDIS_HOST,  port=6379)
-    return conn
-
-
 if __name__ == '__main__':
-    conn = redis_setup()
     app.run(host="0.0.0.0", port=8080)
