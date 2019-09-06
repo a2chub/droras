@@ -3,6 +3,7 @@
 import os
 import json
 import urllib.request
+import requests
 
 from flask import Flask, render_template, jsonify, send_from_directory
 from flask_cors import CORS
@@ -35,7 +36,8 @@ def main(heat_index=1):
     if heat_index > len(heat_data):
         heat_index = 1
     current_heat_index = heat_index
-    send_current_heat()
+    #send_current_heat()
+    set_cur_heat( heat_index )
     return render_template('index.html', data=make_return_data(heat_index))
 
 
@@ -104,7 +106,17 @@ def send_current_heat():
         body = res.read()
         print(body)
 
+def set_cur_heat(heat_id=1):
+  cur_heat = "%s"%(heat_id)
+  url = "https://script.google.com/macros/s/AKfycbwY05MtkIet6Yc_MlQvD9Ng4H_ZTpBcFZvtTj_BPE008Az8H8x2/exec"
+  query = "?heat="
+
+  try:
+    response = requests.get(url + query + cur_heat)
+  except:
+    pass
+
 
 if __name__ == '__main__':
-    send_heat_data()
-    app.run(host="0.0.0.0", port=8080)
+  #send_heat_data()
+  app.run(host="0.0.0.0", port=8080)
