@@ -7,7 +7,13 @@ import urllib.request
 from flask import Flask, render_template, jsonify, send_from_directory
 from flask_cors import CORS
 
-from jdl_lib.webapp import start_sound
+import platform
+if platform.system() == "Darwin":
+  def start_sound():
+    print("pi pi pi po-n")
+else:
+  from jdl_lib.webapp import start_sound
+
 from heat_list import make_heat, get_heat
 
 current_heat_index = 0
