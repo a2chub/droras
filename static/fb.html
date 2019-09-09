@@ -1,0 +1,36 @@
+<html>
+
+<head>
+
+<script src="https://www.gstatic.com/firebasejs/6.6.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.6.0/firebase-firestore.js"></script>
+
+<script>
+  var firebaseConfig = {
+    apiKey: "AIzaSyDJLakGhgbVQhgu-AlF7_JP36KYZlOE8i8",
+    authDomain: "jdl-main.firebaseapp.com",
+    databaseURL: "https://jdl-main.firebaseio.com",
+    projectId: "jdl-main",
+    storageBucket: "jdl-main.appspot.com",
+    messagingSenderId: "457977284384",
+    appId: "1:457977284384:web:bdfa2434119cb460043945"
+  };
+  // Initialize Firebase
+  var app = firebase.initializeApp(firebaseConfig);
+  db = firebase.firestore(app);
+
+  function getData(){
+    c_id = db.collection("race").doc("current").get();
+    console.log( c_id );
+  }
+  getData()
+
+</script>
+</head>
+
+<body>
+
+
+
+</body>
+</html>
