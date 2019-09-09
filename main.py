@@ -2,6 +2,7 @@
 
 import os
 import json
+import asyncio
 import requests
 import platform
 import urllib.request
@@ -20,6 +21,8 @@ else:
 from heat_list import make_heat, get_heat
 
 current_heat_index = 0
+async_flg = True
+
 
 app = Flask(__name__, static_url_path='')
 CORS(app)
@@ -45,7 +48,8 @@ def main(heat_index=1):
     current_heat_index = heat_index
     #send_current_heat()
     #set_cur_heat( heat_index )
-    set_cur_heat_fb( heat_index )
+    if async_flg:
+      loop.run_until_complete( set_cur_heat_fb( heat_index ) )
     return render_template('index.html', data=make_return_data(heat_index))
 
 
@@ -114,11 +118,15 @@ def send_current_heat():
         body = res.read()
         print(body)
 
-def set_cur_heat_fb(heat_id=1):
+async def set_cur_heat_fb(heat_id=1):
+  global async_flg
+  async_flg = False
   race_ref = db.collection(u'race').document(u'current')
   race_ref.set({
     u'heat': u'%s'%(heat_id)
   })
+
+  async_flg = True
 
 
 def set_cur_heat(heat_id=1):
@@ -134,4 +142,6 @@ def set_cur_heat(heat_id=1):
 
 if __name__ == '__main__':
   #send_heat_data()
+
+  loop = asyncio.get_event_loop()
   app.run(host="0.0.0.0", port=8080)
