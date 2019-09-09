@@ -13,7 +13,7 @@
         <tr
           v-for="(heat, index) in $store.state.heats"
           :key="index"
-          :class="{ 'table-success': index + 1 == $store.state.current }"
+          :class="{ 'table-success': index + 1 == $store.state.current.heat }"
         >
           <td>{{ index + 1 }}</td>
           <td v-for="(pilot, pilotindex) in heat" :key="pilotindex">
@@ -26,15 +26,10 @@
 </template>
 
 <script>
-import io from 'socket.io-client'
-
-const socket = io(process.env.WS_URL)
-
 export default {
-  mounted () {
-    socket.on('update-current', (message) => {
-      this.$store.commit('setCurrent', message.id)
-    })
+  created () {
+    this.$store.dispatch('initRaces')
+    this.$store.dispatch('initCurrent')
   }
 }
 </script>
