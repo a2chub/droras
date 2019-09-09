@@ -30,7 +30,7 @@ export const getters = {
 
 export const actions = {
   async initRaces ({ commit }) {
-    const response = await axios.get('https://script.google.com/macros/s/AKfycbwY05MtkIet6Yc_MlQvD9Ng4H_ZTpBcFZvtTj_BPE008Az8H8x2/exec?getrace=6')
+    const response = await axios.get('http://info.japandroneleague.com/round6.json')
     const heats = []
     for (const data of response.data) {
       const [JDL_ID, name, klass, index] = data
