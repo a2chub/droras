@@ -25,18 +25,38 @@
     }
     getData();
 
+    function update_heat(){
+      getData();
+      var disp_heat = document.getElementById("c_heat");
+      disp_heat.innerText = c_id.data().heat;
+    }
+
   </script>
+  <style>
+  body { font-size: 4em; }
+  button { font-size: 1em; }
+  .content {
+    text-align: center;
+  }
+  .elem {
+    display: inline-block;
+    border: 1 1 1 1 solid black;
+    width: 100px;
+  }
+</style>
   </head>
 
   <body>
 
-    <div id="result">
-      <div id = "c_heat">current heat</div>
-      <button id="get_current_heat">UpDate</button>
+    <div id="result" class="content">
+      <p class="elem">
+        <button id="get_current_heat" onclick="update_heat()">UpDate</button>
+        <div id="c_heat">current heat</div>
+      </p>
     </div>
 
-
     <script>
+
 
     </script>
   </body>
