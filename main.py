@@ -2,13 +2,15 @@
 
 import os
 import json
-import urllib.request
 import requests
+import platform
+import urllib.request
 
 from flask import Flask, render_template, jsonify, send_from_directory
 from flask_cors import CORS
 
-import platform
+from google.cloud import firestore
+
 if platform.system() == "Darwin":
   def start_sound():
     print("pi pi pi po-n")
@@ -23,6 +25,11 @@ app = Flask(__name__, static_url_path='')
 CORS(app)
 app.debug = True
 
+try:
+  db = firestore.Client()
+except:
+  print(" no firestore")
+  pass
 
 @app.route('/')
 def root():
@@ -37,7 +44,8 @@ def main(heat_index=1):
         heat_index = 1
     current_heat_index = heat_index
     #send_current_heat()
-    set_cur_heat( heat_index )
+    #set_cur_heat( heat_index )
+    set_cur_heat_fb( heat_index )
     return render_template('index.html', data=make_return_data(heat_index))
 
 
@@ -105,6 +113,13 @@ def send_current_heat():
     with urllib.request.urlopen(req) as res:
         body = res.read()
         print(body)
+
+def set_cur_heat_fb(heat_id=1):
+  race_ref = db.collection(u'race').document(u'current')
+  race_ref.set({
+    u'heat': u'%s'%(heat_id)
+  })
+
 
 def set_cur_heat(heat_id=1):
   cur_heat = "%s"%(heat_id)
