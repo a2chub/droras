@@ -37,7 +37,6 @@ html, body, #__nuxt, #__layout {
   height: 100%;
   overflow: hidden;
   display: flex;
-  align-items: center;
 }
 .name {
   color: white;
@@ -45,5 +44,6 @@ html, body, #__nuxt, #__layout {
   text-align: center;
   font-size: 20px;
   font-weight: bold;
+  margin-top: 20px;
 }
 </style>
