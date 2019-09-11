@@ -50,7 +50,7 @@ def main(heat_index=1):
     #set_cur_heat( heat_index )
     if async_flg:
       loop.run_until_complete( set_cur_heat_fb( heat_index ) )
-    return render_template('index.html', data=make_return_data(heat_index))
+    return app.send_static_file("index.html")
 
 
 @app.route('/h/<int:heat_index>')
@@ -72,6 +72,18 @@ def cur_heat():
 @app.route('/api/get_race_data')
 def race_data():
     return jsonify(make_heat())
+
+
+@app.route('/api/<int:heat_index>')
+def set_current(heat_index=1):
+    global current_heat_index
+    heat_data = make_heat()
+    if heat_index > len(heat_data):
+        heat_index = 1
+    current_heat_index = heat_index
+    if async_flg:
+      loop.run_until_complete(set_cur_heat_fb(heat_index))
+    return jsonify({'id': current_heat_index})
 
 
 def make_return_data(heat_index):
