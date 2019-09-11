@@ -58,7 +58,9 @@ module.exports = {
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
-  axios: {},
+  axios: {
+    baseURL: ''
+  },
   /*
    ** Build configuration
    */
@@ -67,5 +69,8 @@ module.exports = {
      ** You can extend webpack config here
      */
     extend (config, ctx) {}
+  },
+  generate: {
+    dir: '../../static'
   }
 }
