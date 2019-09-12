@@ -18,9 +18,9 @@
             | {{ pilot.JDL_ID.match(/^J/) ? pilot.name : "-" }}
     hr
     .buttons
-      button#btn-start.btn.btn-lg.btn-success(type='button', v-on:click='start') スタート音 <kbd>1</kbd>
-      nuxt-link#btn-prev.btn.btn-lg.btn-secondary(role='button', :to='prev()') 前のヒート<kbd>2</kbd>
-      nuxt-link#btn-next.btn.btn-lg.btn-primary(role='button', :to='next()') 次のヒート<kbd>3</kbd>
+      button.btn.btn-lg.btn-success(type='button', v-on:click='start') スタート音 <kbd>1</kbd>
+      nuxt-link.btn.btn-lg.btn-secondary(role='button', :to='prev()') 前のヒート<kbd>2</kbd>
+      nuxt-link.btn.btn-lg.btn-primary(role='button', :to='next()') 次のヒート<kbd>3</kbd>
     #progress.progress(style={height: '30px'})
       .progress-bar(v-bind:style="{width: progress + '%'}") {{ current }}
 </template>
@@ -60,11 +60,16 @@ export default {
     await store.dispatch('initCurrent')
     await axios.get('/api/' + params.id)
   },
+  beforeMount () {
+    window.addEventListener('keydown', this.onKeyDown)
+  },
   beforeDestroy () {
     this.stop()
+    window.removeEventListener('keydown', this.onKeyDown)
   },
   methods: {
     start () {
+      this.stop()
       this.$axios.get('/api/start')
       const startTime = Date.now()
       this.timer = setInterval(() => {
@@ -72,7 +77,7 @@ export default {
         const duration = 120
         const p = Math.min(t / duration * 100, 100)
         if (p === 100) {
-          this.$router.push(this.next())
+          this.goNext()
         }
         this.progress = p
         this.current = `${Math.round(t)} / ${duration - Math.round(t)}`
@@ -88,12 +93,31 @@ export default {
       const current = this.$store.state.current.heat | 0
       return `/${current === total ? 1 : current + 1}`
     },
+    goNext () {
+      this.$router.push(this.next())
+    },
     prev () {
       const total = this.$store.state.heats.length
       if (total === 0 || !this.$store.state.current) { return '' }
 
       const current = this.$store.state.current.heat | 0
       return `/${current === 1 ? total : current - 1}`
+    },
+    goPrevious () {
+      this.$router.push(this.prev())
+    },
+    onKeyDown (event) {
+      switch (event.key) {
+        case '1':
+          this.start()
+          break
+        case '2':
+          this.goPrevious()
+          break
+        case '3':
+          this.goNext()
+          break
+      }
     }
   }
 }
