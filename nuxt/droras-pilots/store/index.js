@@ -30,7 +30,7 @@ export const getters = {
 
 export const actions = {
   async initRaces ({ commit }) {
-    const response = await axios.get('http://info.japandroneleague.com/round6.json')
+    const response = await axios.get('/pilots.json')
     const heats = []
     for (const data of response.data) {
       const [JDL_ID, name, klass, index] = data
