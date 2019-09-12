@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 
-from heat_list import make_heat
-import os
 import json
 import asyncio
 import platform
@@ -18,9 +16,18 @@ else:
     from jdl_lib.webapp import start_sound
 
 
-current_heat_index = 0
 async_flg = True
 
+with open('static/pilots.json') as f:
+    pilots = json.load(f)
+    heat_list = {}
+    for index, pilot in enumerate(pilots):
+        id, name, klass, heat = pilot
+        # print(index, id, name, klass, heat)
+        if heat not in heat_list:
+            heat_list[heat] = []
+        heat_list[heat].append(pilot)
+total_heat_count = len(heat_list)
 
 app = Flask(__name__, static_url_path='')
 CORS(app)
@@ -51,14 +58,10 @@ def start():
 
 @app.route('/api/<int:heat_index>')
 def set_current(heat_index=1):
-    global current_heat_index
-    heat_data = make_heat()
-    if heat_index > len(heat_data):
-        heat_index = 1
-    current_heat_index = heat_index
+    heat_index = (heat_index - 1) % total_heat_count + 1
     if async_flg:
         loop.run_until_complete(set_cur_heat_fb(heat_index))
-    return jsonify({'id': current_heat_index})
+    return jsonify({'id': heat_index})
 
 
 async def set_cur_heat_fb(heat_id=1):
