@@ -27,6 +27,7 @@
         </tr>
         </tbody>
         </table>
+
         <div class="footer">
         <a href="https://www.japandroneleague.com" target=new>JDL HP</a> |
         <a href="https://speedhive.mylaps.com/ja/Organizations/354884" target=new>Lap Result</a> |
@@ -34,6 +35,7 @@
         <br>
         <p>© 2015 JAPAN DRONE LEAGUE</p>
         </div>
+
         </div>
         </template>
 
@@ -62,15 +64,19 @@ export default {
 </script>
 
 <style scoped>
+.container{
+  padding-bottom: 65px;
+}
 th, td {
   text-align: center;
 }
+
 .class-name {
   font-weight: bold;
 }
 
 .footer{
-  position: absolute;
+  position: fixed;
   font-color: black;
   left: 0;
   bottom: 0;
