@@ -19,8 +19,8 @@
     hr
     .buttons
       button#btn-start.btn.btn-lg.btn-success(type='button', v-on:click='start') スタート音 <kbd>1</kbd>
-      nuxt-link#btn-prev.btn.btn-lg.btn-secondary(role='button', :to='prev') 前のヒート<kbd>2</kbd>
-      nuxt-link#btn-next.btn.btn-lg.btn-primary(role='button', :to='next') 次のヒート<kbd>3</kbd>
+      nuxt-link#btn-prev.btn.btn-lg.btn-secondary(role='button', :to='prev()') 前のヒート<kbd>2</kbd>
+      nuxt-link#btn-next.btn.btn-lg.btn-primary(role='button', :to='next()') 次のヒート<kbd>3</kbd>
     #progress.progress(style={height: '30px'})
       .progress-bar(v-bind:style="{width: progress + '%'}") {{ current }}
 </template>
@@ -53,20 +53,6 @@ export default {
         heats.push({ index: index + 1, class: klass, pilots, active: i + 1 === current })
       }
       return heats
-    },
-    next () {
-      const total = this.$store.state.heats.length
-      if (total === 0 || !this.$store.state.current) { return '' }
-
-      const current = this.$store.state.current.heat | 0
-      return `/${current === total ? 1 : current + 1}`
-    },
-    prev () {
-      const total = this.$store.state.heats.length
-      if (total === 0 || !this.$store.state.current) { return '' }
-
-      const current = this.$store.state.current.heat | 0
-      return `/${current === 1 ? total : current - 1}`
     }
   },
   async fetch ({ store, params, $axios }) {
@@ -86,7 +72,7 @@ export default {
         const duration = 120
         const p = Math.min(t / duration * 100, 100)
         if (p === 100) {
-          this.stop()
+          this.$router.push(this.next())
         }
         this.progress = p
         this.current = `${Math.round(t)} / ${duration - Math.round(t)}`
@@ -94,6 +80,20 @@ export default {
     },
     stop () {
       clearInterval(this.timer)
+    },
+    next () {
+      const total = this.$store.state.heats.length
+      if (total === 0 || !this.$store.state.current) { return '' }
+
+      const current = this.$store.state.current.heat | 0
+      return `/${current === total ? 1 : current + 1}`
+    },
+    prev () {
+      const total = this.$store.state.heats.length
+      if (total === 0 || !this.$store.state.current) { return '' }
+
+      const current = this.$store.state.current.heat | 0
+      return `/${current === 1 ? total : current - 1}`
     }
   }
 }
