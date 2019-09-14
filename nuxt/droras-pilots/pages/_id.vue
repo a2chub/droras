@@ -36,9 +36,6 @@ export default {
       current: ''
     }
   },
-  validate ({ params }) {
-    return /^\d+$/.test(params.id)
-  },
   computed: {
     heats () {
       const total = this.$store.state.heats.length
