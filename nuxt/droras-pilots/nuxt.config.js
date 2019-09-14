@@ -68,7 +68,10 @@ module.exports = {
     /*
      ** You can extend webpack config here
      */
-    extend (config, ctx) {}
+    hardSource: true,
+    extend (config, ctx) {
+      config.performance.hints = false
+    }
   },
   generate: {
     dir: '../../static'
