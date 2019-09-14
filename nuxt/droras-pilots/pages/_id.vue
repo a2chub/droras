@@ -74,6 +74,7 @@ export default {
         const duration = 120
         const p = Math.min(t / duration * 100, 100)
         if (p === 100) {
+          this.stop()
           this.goNext()
         }
         this.progress = p
