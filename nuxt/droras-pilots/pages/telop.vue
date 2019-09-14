@@ -41,6 +41,7 @@ html, body, #__nuxt, #__layout {
 .name {
   color: white;
   width: 33.3333%;
+  font-family: sans-serif;
   text-align: center;
   font-size: 20px;
   font-weight: bold;

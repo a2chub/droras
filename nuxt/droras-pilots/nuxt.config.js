@@ -5,6 +5,9 @@ module.exports = {
    */
   head: {
     title: 'JDL 2019 R6',
+    htmlAttrs: {
+      lang: 'ja'
+    },
     meta: [{
       charset: 'utf-8'
     },
