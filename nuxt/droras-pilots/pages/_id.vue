@@ -22,26 +22,25 @@
       nuxt-link.btn.btn-lg.btn-secondary(role='button', :to='prev()') 前のヒート<kbd>2</kbd>
       nuxt-link.btn.btn-lg.btn-primary(role='button', :to='next()') 次のヒート<kbd>3</kbd>
     #progress.progress(style={height: '30px'})
-      .progress-bar(v-bind:style="{width: progress + '%'}") {{ current }}
+      .progress-bar(v-bind:style="{width: progress + '%'}") {{ currentTime }}
 </template>
 
 <script>
-import axios from 'axios'
-
 export default {
   data () {
     return {
       timer: -1,
+      currentHeat: 1,
       progress: 0,
-      current: ''
+      currentTime: ''
     }
   },
   computed: {
     heats () {
       const total = this.$store.state.heats.length
-      if (total === 0 || !this.$store.state.current) { return }
+      if (total === 0) { return }
 
-      const current = this.$store.state.current.heat | 0
+      const current = this.currentHeat | 0
       const heats = []
       for (let i = current - 2; i <= current; i++) {
         const index = (i + total) % total
@@ -52,10 +51,12 @@ export default {
       return heats
     }
   },
-  async fetch ({ store, params, $axios }) {
-    await store.dispatch('initRaces')
-    await store.dispatch('initCurrent')
-    await axios.get('/api/' + params.id)
+  asyncData ({ params }) {
+    return { currentHeat: params.id }
+  },
+  fetch ({ store, params, $axios }) {
+    store.dispatch('initRaces')
+    $axios.get('/api/' + params.id)
   },
   beforeMount () {
     window.addEventListener('keydown', this.onKeyDown)
@@ -78,7 +79,7 @@ export default {
           this.goNext()
         }
         this.progress = p
-        this.current = `${Math.round(t)} / ${duration - Math.round(t)}`
+        this.currentTime = `${Math.round(t)} / ${duration - Math.round(t)}`
       }, 100)
     },
     stop () {
@@ -86,9 +87,8 @@ export default {
     },
     next () {
       const total = this.$store.state.heats.length
-      if (total === 0 || !this.$store.state.current) { return '' }
-
-      const current = this.$store.state.current.heat | 0
+      if (total === 0) { return '' }
+      const current = this.currentHeat | 0
       return `/${current === total ? 1 : current + 1}`
     },
     goNext () {
@@ -96,9 +96,8 @@ export default {
     },
     prev () {
       const total = this.$store.state.heats.length
-      if (total === 0 || !this.$store.state.current) { return '' }
-
-      const current = this.$store.state.current.heat | 0
+      if (total === 0) { return '' }
+      const current = this.currentHeat | 0
       return `/${current === 1 ? total : current - 1}`
     },
     goPrevious () {
