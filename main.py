@@ -7,7 +7,6 @@ import platform
 from flask import Flask, jsonify
 from flask_cors import CORS
 
-from google.cloud import firestore
 
 if platform.system() == "Darwin":
     def start_sound():
@@ -34,9 +33,11 @@ CORS(app)
 app.debug = True
 
 try:
+    from google.cloud import firestore
     db = firestore.Client()
 except:
     print(" no firestore")
+    db = ""
     pass
 
 
@@ -60,7 +61,10 @@ def start():
 def set_current(heat_index=1):
     heat_index = (heat_index - 1) % total_heat_count + 1
     if async_flg:
-        loop.run_until_complete(set_cur_heat_fb(heat_index))
+        try:
+          loop.run_until_complete(set_cur_heat_fb(heat_index))
+        except:
+          print('no send firestore')
     return jsonify({'id': heat_index})
 
 
