@@ -29,7 +29,9 @@ export const getters = {
 }
 
 export const actions = {
-  async initRaces ({ commit }) {
+  async initRaces ({ commit, state }) {
+    if (state.heats.length > 0) { return }
+
     const response = await axios.get('/pilots.json')
     const heats = []
     for (const data of response.data) {
