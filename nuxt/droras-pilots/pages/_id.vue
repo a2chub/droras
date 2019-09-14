@@ -71,7 +71,7 @@ export default {
       const startTime = Date.now()
       this.timer = setInterval(() => {
         const t = (Date.now() - startTime) / 1000
-        const duration = 120
+        const duration = 165
         const p = Math.min(t / duration * 100, 100)
         if (p === 100) {
           this.stop()
