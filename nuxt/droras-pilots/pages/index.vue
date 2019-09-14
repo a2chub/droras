@@ -25,19 +25,18 @@
             {{ pilot.JDL_ID.match(/^J/) ? pilot.name : "-" }}
           </td>
         </tr>
-        </tbody>
-        </table>
+      </tbody>
+    </table>
 
-        <div class="footer">
-        <a href="https://www.japandroneleague.com" target=new>JDL HP</a> |
-        <a href="https://speedhive.mylaps.com/ja/Organizations/354884" target=new>Lap Result</a> |
-        <a href="https://www.japandroneleague.com/%E5%95%8F%E3%81%84%E5%90%88%E3%82%8F%E3%81%9B" target=new>Contact</a>
-        <br>
-        <p>© 2015 JAPAN DRONE LEAGUE</p>
-        </div>
-
-        </div>
-        </template>
+    <div class="footer">
+      <a href="https://www.japandroneleague.com" target="new">JDL HP</a> |
+      <a href="https://speedhive.mylaps.com/ja/Organizations/354884" target="new">Lap Result</a> |
+      <a href="https://www.japandroneleague.com/%E5%95%8F%E3%81%84%E5%90%88%E3%82%8F%E3%81%9B" target="new">Contact</a>
+      <br>
+      <p>© 2015 JAPAN DRONE LEAGUE</p>
+    </div>
+  </div>
+</template>
 
 <script>
 export default {
