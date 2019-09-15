@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import json
+import requests
 import asyncio
 import platform
 
@@ -76,6 +77,14 @@ async def set_cur_heat_fb(heat_id=1):
         u'heat': u'%s' % (heat_id)
     })
     async_flg = True
+
+@app.route('/api/jsonpudate')
+def download_heat():
+  res = requests.get("https://script.google.com/macros/s/AKfycbwY05MtkIet6Yc_MlQvD9Ng4H_ZTpBcFZvtTj_BPE008Az8H8x2/exec?getrace=now").json()
+  text = json.dumps(res, ensure_ascii=False)
+  with open("static/pilots.json", "w") as file:
+      file.write(str(text.encode("utf-8")))
+  return "save done"
 
 
 if __name__ == '__main__':
