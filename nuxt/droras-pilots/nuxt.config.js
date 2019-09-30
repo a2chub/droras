@@ -4,7 +4,7 @@ module.exports = {
    ** Headers of the page
    */
   head: {
-    title: 'JDL 2019 R6',
+    title: 'JDL Heat Infomation',
     htmlAttrs: {
       lang: 'ja'
     },
