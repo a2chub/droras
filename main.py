@@ -4,6 +4,7 @@ import json
 import requests
 import asyncio
 import platform
+import re
 
 from flask import Flask, jsonify
 from flask_cors import CORS
@@ -18,16 +19,19 @@ else:
 
 async_flg = True
 
-with open('static/pilots.json') as f:
-    pilots = json.load(f)
+with open('static/pilots.csv') as f:
     heat_list = {}
-    for index, pilot in enumerate(pilots):
-        id, name, klass, heat = pilot
+    for index, line in enumerate(f.readlines()):
+        id, name, klass, heat = line.strip().split(',')
         # print(index, id, name, klass, heat)
+        if not re.match(r'J\d{5}', id):
+            continue
         if heat not in heat_list:
             heat_list[heat] = []
-        heat_list[heat].append(pilot)
+        heat_list[heat].append({id: id, name: name, klass: klass})
+    # print(heat_list)
 total_heat_count = len(heat_list)
+# print(total_heat_count)
 
 app = Flask(__name__, static_url_path='')
 CORS(app)
@@ -63,9 +67,9 @@ def set_current(heat_index=1):
     heat_index = (heat_index - 1) % total_heat_count + 1
     if async_flg:
         try:
-          loop.run_until_complete(set_cur_heat_fb(heat_index))
+            loop.run_until_complete(set_cur_heat_fb(heat_index))
         except:
-          print('no send firestore')
+            print('no send firestore')
     return jsonify({'id': heat_index})
 
 
@@ -78,13 +82,15 @@ async def set_cur_heat_fb(heat_id=1):
     })
     async_flg = True
 
+
 @app.route('/api/jsonpudate')
 def download_heat():
-  res = requests.get("https://script.google.com/macros/s/AKfycbwY05MtkIet6Yc_MlQvD9Ng4H_ZTpBcFZvtTj_BPE008Az8H8x2/exec?getrace=now").json()
-  text = json.dumps(res, ensure_ascii=False)
-  with open("static/pilots.json", "w") as file:
-      file.write(str(text.encode("utf-8")))
-  return "save done"
+    res = requests.get(
+        "https://script.google.com/macros/s/AKfycbwY05MtkIet6Yc_MlQvD9Ng4H_ZTpBcFZvtTj_BPE008Az8H8x2/exec?getrace=now").json()
+    text = json.dumps(res, ensure_ascii=False)
+    with open("static/pilots.json", "w") as file:
+        file.write(str(text.encode("utf-8")))
+    return "save done"
 
 
 if __name__ == '__main__':
