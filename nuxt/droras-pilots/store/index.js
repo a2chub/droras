@@ -32,10 +32,11 @@ export const actions = {
   async initRaces ({ commit, state }) {
     if (state.heats.length > 0) { return }
 
-    const response = await axios.get('/pilots.json')
+    const response = await axios.get('/pilots.csv')
     const heats = []
-    for (const data of response.data) {
-      const [JDL_ID, name, klass, index] = data
+    for (const data of response.data.split('\n')) {
+      const [JDL_ID, name, klass, _index] = data.split(',')
+      const index = parseInt(_index)
       let group = heats[index]
       if (!group) {
         group = []
@@ -44,8 +45,8 @@ export const actions = {
       group.push({
         JDL_ID,
         name,
-        'class': klass,
-        'heat': index
+        class: klass,
+        heat: index
       })
     }
     commit('SET_HEATS', heats.filter(g => !!g))
