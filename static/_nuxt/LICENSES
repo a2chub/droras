@@ -1,33 +1,51 @@
 /*!
- * Vue.js v2.6.10
+  * vue-router v3.3.2
+  * (c) 2020 Evan You
+  * @license MIT
+  */
+
+/*!
+ * BootstrapVue Icons, generated from Bootstrap Icons 1.0.0-alpha4
+ *
+ * @link https://icons.getbootstrap.com/
+ * @license MIT
+ * https://github.com/twbs/icons/blob/master/LICENSE.md
+ */
+
+/*!
+ * Vue.js v2.6.11
  * (c) 2014-2019 Evan You
  * Released under the MIT License.
  */
 
 /*!
-  * vue-router v3.0.7
-  * (c) 2019 Evan You
-  * @license MIT
-  */
+ * vue-client-only v2.0.0
+ * (c) 2019-present egoist <0x142857@gmail.com>
+ * Released under the MIT License.
+ */
 
-/**
- * vuex v3.1.1
- * (c) 2019 Evan You
+/*!
+ * vue-no-ssr v1.1.1
+ * (c) 2018-present egoist <0x142857@gmail.com>
+ * Released under the MIT License.
+ */
+
+/*!
+ * vuex v3.4.0
+ * (c) 2020 Evan You
  * @license MIT
  */
 
-/*!
- * Determine if an object is a Buffer
- *
- * @author   Feross Aboukhadijeh <https://feross.org>
- * @license  MIT
+/*! 
+  * portal-vue © Thorsten Lünborg, 2019 
+  * 
+  * Version: 2.1.7
+  * 
+  * LICENCE: MIT 
+  * 
+  * https://github.com/linusborg/portal-vue
+  * 
  */
-
-/*!
-  * vuexfire v3.1.2
-  * (c) 2019 Eduardo San Martin Morote
-  * @license MIT
-  */
 
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation. All rights reserved.
@@ -46,7 +64,7 @@ and limitations under the License.
 
 /**
  * @license
- * Copyright 2019 Google Inc.
+ * Copyright 2017 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -63,7 +81,7 @@ and limitations under the License.
 
 /**
  * @license
- * Copyright 2017 Google Inc.
+ * Copyright 2018 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -80,7 +98,24 @@ and limitations under the License.
 
 /**
  * @license
- * Copyright 2018 Google Inc.
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * @license
+ * Copyright 2020 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -97,7 +132,7 @@ and limitations under the License.
 
 /**!
  * @fileOverview Kickass library to create and place poppers near their reference elements.
- * @version 1.15.0
+ * @version 1.16.1
  * @license
  * Copyright (c) 2016 Federico Zivolo and contributors
  *
@@ -118,27 +153,4 @@ and limitations under the License.
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- */
-
-/*! 
-  * portal-vue © Thorsten Lünborg, 2019 
-  * 
-  * Version: 2.1.6
-  * 
-  * LICENCE: MIT 
-  * 
-  * https://github.com/linusborg/portal-vue
-  * 
- */
-
-/*!
- * vue-no-ssr v1.1.1
- * (c) 2018-present egoist <0x142857@gmail.com>
- * Released under the MIT License.
- */
-
-/*!
- * vue-client-only v2.0.0
- * (c) 2019-present egoist <0x142857@gmail.com>
- * Released under the MIT License.
  */
