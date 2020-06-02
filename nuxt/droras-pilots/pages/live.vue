@@ -1,7 +1,7 @@
 <template>
   <div class="bg">
     <div class="video">
-      <video autoplay></video>
+      <video autoplay />
     </div>
     <div
       v-for="(pilot, index) in pilots"

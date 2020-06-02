@@ -74,8 +74,22 @@ module.exports = {
     hardSource: true,
     extend (config, ctx) {
       config.performance.hints = false
+    },
+    // https://tech.moyashidaisuke.com/entry/nuxt-core-js-error
+    babel: {
+        presets({ isServer }) {
+            return [
+                [
+                    require.resolve('@nuxt/babel-preset-app'),
+                    {
+                        buildTarget: isServer ? 'server' : 'client',
+                        corejs: { version: 3 }
+                    }
+                ]
+            ]
+        }
     }
-  },
+},
   generate: {
     dir: '../../static'
   }

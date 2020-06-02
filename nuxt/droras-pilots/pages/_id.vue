@@ -27,6 +27,13 @@
 
 <script>
 export default {
+  fetch ({ store, params, $axios }) {
+    store.dispatch('initRaces')
+    $axios.get('/api/' + params.id)
+  },
+  asyncData ({ params }) {
+    return { currentHeat: params.id }
+  },
   data () {
     return {
       timer: -1,
@@ -50,13 +57,6 @@ export default {
       }
       return heats
     }
-  },
-  asyncData ({ params }) {
-    return { currentHeat: params.id }
-  },
-  fetch ({ store, params, $axios }) {
-    store.dispatch('initRaces')
-    $axios.get('/api/' + params.id)
   },
   beforeMount () {
     window.addEventListener('keydown', this.onKeyDown)
