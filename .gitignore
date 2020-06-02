@@ -102,4 +102,7 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+.direnv
+.envrc
+
 jdl-main-key.json
