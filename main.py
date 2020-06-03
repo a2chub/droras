@@ -56,6 +56,11 @@ def set_current_heat(heat_index=1):
     return app.send_static_file("index.html")
 
 
+@app.route('/telop/')
+def telop():
+    return app.send_static_file("index.html")
+
+
 @app.route('/api/start')
 def start():
     start_sound()
