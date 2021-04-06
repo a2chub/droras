@@ -48,7 +48,9 @@ def start_sound():
     led_on()
     random_start = pygame.mixer.Sound("snd/pipipi.wav")
     random_start.play()
-    sleep( float(randint(40, 90))/10.0 )
+    dur_time = float(randint(30, 50))/10.0
+    sleep( dur_time )
+    print(dur_time)
     start_signal()
   else:
     print("Need more duration")
