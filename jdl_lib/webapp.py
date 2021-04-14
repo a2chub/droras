@@ -9,10 +9,16 @@ from datetime import datetime
 from random import randint
 import pygame
 
-
 #define the 4 GPIO lines we want to use
 four=LED(26)
 pygame.init()
+
+'''
+scrn_flag = 0
+if scrn_flag == 0:
+  screen = pygame.display.set_mode((320, 320))
+  pygame.display.set_caption("Droras: JDL Start System")
+'''
 
 def led_on():
     #turn relay J2 on
