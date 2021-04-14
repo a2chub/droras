@@ -27,8 +27,8 @@
     "babel-eslint": "^10.1.0",
     "eslint": "^7.1.0",
     "eslint-plugin-nuxt": ">=1.0.0",
-    "pug": "^3.0.0",
-    "pug-loader": "^2.4.0",
+    "pug": "^3.0.2",
+    "pug-loader": "^1.0.2",
     "pug-plain-loader": "^1.0.0",
     "stylus": "^0.54.7",
     "stylus-loader": "^3.0.2"
