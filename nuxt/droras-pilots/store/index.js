@@ -32,7 +32,7 @@ export const actions = {
   async initRaces ({ commit, state }) {
     if (state.heats.length > 0) { return }
 
-    const response = await axios.get('/pilots.csv?' + Date.now())
+    const response = await axios.get('https://docs.google.com/spreadsheets/d/e/2PACX-1vQSIb1_Hys9ai97Mlf9LnxHaSFdWciZ2IC9kCTMbEQAHe7lvuM-7D-_8iKOtwibWMFL1ff1bP-keLJm/pub?gid=554938252&single=true&output=csv')
     const heats = []
     for (const data of response.data.split('\n')) {
       const [JDL_ID, name, klass, _index] = data.split(',')
