@@ -4,7 +4,7 @@ chardet==3.0.4
 Click==7.0
 colorzero==1.1
 Flask==1.0.3
-Flask-Cors==3.0.8
+Flask-Cors==3.0.9
 google-api-core==1.14.2
 google-auth==1.6.3
 google-cloud-core==1.0.3
