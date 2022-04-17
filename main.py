@@ -70,6 +70,7 @@ def start():
 @app.route('/api/<int:heat_index>')
 def set_current(heat_index=1):
     heat_index = (heat_index - 1) % total_heat_count + 1
+    print("set cur heat number")
     if async_flg:
         try:
             loop.run_until_complete(set_cur_heat_fb(heat_index))
@@ -80,6 +81,7 @@ def set_current(heat_index=1):
 
 async def set_cur_heat_fb(heat_id=1):
     global async_flg
+    print("send firebase")
     async_flg = False
     race_ref = db.collection(u'race').document(u'current')
     race_ref.set({
