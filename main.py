@@ -35,7 +35,7 @@ total_heat_count = len(heat_list)
 
 app = Flask(__name__, static_url_path='')
 CORS(app)
-app.debug = True
+app.debug = False
 
 try:
     from google.cloud import firestore
