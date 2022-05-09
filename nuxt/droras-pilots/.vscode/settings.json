@@ -18,5 +18,8 @@
   "prettier.eslintIntegration": true,
   "editor.detectIndentation": false,
   "vetur.format.defaultFormatter.html": "prettier",
-  "vetur.format.defaultFormatter.js": "prettier-eslint"
+"vetur.format.defaultFormatter.js": "prettier-eslint",
+"editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+}
 }

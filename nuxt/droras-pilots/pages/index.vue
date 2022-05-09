@@ -43,16 +43,15 @@ export default {
   computed: {
     heats () {
       const current = this.$store.state.current.heat | 0
-      const allHeats = { open: [], expert: [], pro: [] }
+      const allHeats = {}
       for (const [index, pilots] of this.$store.state.heats.entries()) {
         const klass = pilots.find(p => p.name).class.toLowerCase()
+        if (!(klass in allHeats)) {
+          allHeats[klass] = []
+        }
         allHeats[klass].push({ index: index + 1, active: index + 1 === current, pilots })
       }
-      return [
-        { class: 'Open', heats: allHeats.open },
-        { class: 'Expert', heats: allHeats.expert },
-        { class: 'Pro', heats: allHeats.pro }
-      ]
+      return Object.entries(allHeats).map(([k, v]) => ({ class: k, heats: v }))
     }
   },
   created () {
