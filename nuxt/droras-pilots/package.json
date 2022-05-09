@@ -13,24 +13,24 @@
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore ."
   },
   "dependencies": {
-    "@nuxtjs/axios": "^5.10.3",
-    "bootstrap": "^4.5.0",
-    "bootstrap-vue": "^2.15.0",
-    "core-js": "^3.6.5",
-    "firebase": "^7.14.6",
-    "nuxt": "^2.12.2",
-    "vuexfire": "^3.2.2"
+    "@nuxtjs/axios": "^5.13.6",
+    "bootstrap": "^5.1.3",
+    "bootstrap-vue": "^2.22.0",
+    "core-js": "^3.22.4",
+    "firebase": "^9.8.0",
+    "nuxt": "^2.15.8",
+    "vuexfire": "^3.2.5"
   },
   "devDependencies": {
-    "@nuxtjs/eslint-config": "^3.0.0",
-    "@nuxtjs/eslint-module": "^2.0.0",
+    "@nuxtjs/eslint-config": "^10.0.0",
+    "@nuxtjs/eslint-module": "^3.1.0",
     "babel-eslint": "^10.1.0",
-    "eslint": "^7.1.0",
-    "eslint-plugin-nuxt": ">=1.0.0",
+    "eslint": "^8.15.0",
+    "eslint-plugin-nuxt": ">=3.2.0",
     "pug": "^3.0.2",
-    "pug-loader": "^1.0.2",
-    "pug-plain-loader": "^1.0.0",
-    "stylus": "^0.54.7",
+    "pug-loader": "^2.4.0",
+    "pug-plain-loader": "^1.1.0",
+    "stylus": "^0.57.0",
     "stylus-loader": "^3.0.2"
   }
 }
