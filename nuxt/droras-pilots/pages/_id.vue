@@ -27,10 +27,6 @@
 
 <script>
 export default {
-  fetch ({ store, params, $axios }) {
-    store.dispatch('initRaces')
-    $axios.get('/api/' + params.id)
-  },
   asyncData ({ params }) {
     return { currentHeat: params.id }
   },
@@ -41,6 +37,10 @@ export default {
       progress: 0,
       currentTime: ''
     }
+  },
+  fetch ({ store, params, $axios }) {
+    store.dispatch('initRaces')
+    $axios.get('/api/' + params.id)
   },
   computed: {
     heats () {

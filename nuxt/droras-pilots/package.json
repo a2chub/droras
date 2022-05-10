@@ -5,7 +5,7 @@
   "author": "Saqoosha",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
+    "dev": "nuxt --hostname 0.0.0.0",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
@@ -22,9 +22,10 @@
     "vuexfire": "^3.2.5"
   },
   "devDependencies": {
+    "@babel/core": "^7.17.10",
+    "@babel/eslint-parser": "^7.17.0",
     "@nuxtjs/eslint-config": "^10.0.0",
     "@nuxtjs/eslint-module": "^3.1.0",
-    "babel-eslint": "^10.1.0",
     "eslint": "^8.15.0",
     "eslint-plugin-nuxt": ">=3.2.0",
     "pug": "^3.0.2",
