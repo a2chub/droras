@@ -1,5 +1,5 @@
 module.exports = {
-  mode: 'spa',
+  ssr: false,
   /*
    ** Headers of the page
    */
@@ -25,7 +25,11 @@ module.exports = {
       rel: 'icon',
       type: 'image/x-icon',
       href: '/favicon.ico'
-    }]
+    },
+      { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+      { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: true },
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&display=swap' }
+    ]
   },
   /*
    ** Customize the progress-bar color
@@ -77,19 +81,19 @@ module.exports = {
     },
     // https://tech.moyashidaisuke.com/entry/nuxt-core-js-error
     babel: {
-        presets({ isServer }) {
-            return [
-                [
-                    require.resolve('@nuxt/babel-preset-app'),
-                    {
-                        buildTarget: isServer ? 'server' : 'client',
-                        corejs: { version: 3 }
-                    }
-                ]
-            ]
-        }
+      presets({ isServer }) {
+        return [
+          [
+            require.resolve('@nuxt/babel-preset-app'),
+            {
+              buildTarget: isServer ? 'server' : 'client',
+              corejs: { version: 3 }
+            }
+          ]
+        ]
+      }
     }
-},
+  },
   generate: {
     dir: '../../static'
   }
