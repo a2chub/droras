@@ -22,7 +22,7 @@ async_flg = True
 with open('static/pilots.csv') as f:
     heat_list = {}
     for index, line in enumerate(f.readlines()):
-        id, name, klass, heat = line.strip().split(',')
+        id, name, klass, heat  = line.strip().split(',')
         # print(index, id, name, klass, heat)
         if not re.match(r'J\d{5}', id):
             continue
@@ -69,7 +69,10 @@ def start():
 
 @app.route('/api/<int:heat_index>')
 def set_current(heat_index=1):
-    heat_index = (heat_index - 1) % total_heat_count + 1
+    if total_heat_count != 0:
+        heat_index = (heat_index - 1) % total_heat_count + 1
+    else:
+        heat_index = heat_index
     print("set cur heat number")
     if async_flg:
         try:
