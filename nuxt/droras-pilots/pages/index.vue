@@ -3,8 +3,8 @@
     <div class="header">
       <div class="title">
         <img src="/jdl.png"></img>
-        <span>JDL 2022 ROUND 2</span>
-        <span class="location">@三郷スカイパーク</span>
+        <span>JDL 2022 ROUND 4</span>
+        <span class="location">@こどものくに</span>
       </div>
       <table class="table freq">
         <thead>
