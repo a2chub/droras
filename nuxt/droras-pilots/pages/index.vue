@@ -161,7 +161,9 @@ th
   font-weight: 700
 
 .table-success
-  --bs-table-bg: rgba(0, 128, 255, 0.4)
+  background-color: rgba(0, 128, 255, 0.4)
+  > td, > th
+      background-color: transparent
   font-weight: bold
   td
     color: #fff
