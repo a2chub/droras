@@ -1,5 +1,5 @@
 module.exports = {
-  mode: 'spa',
+  ssr: false,
   /*
    ** Headers of the page
    */
@@ -77,19 +77,19 @@ module.exports = {
     },
     // https://tech.moyashidaisuke.com/entry/nuxt-core-js-error
     babel: {
-        presets({ isServer }) {
-            return [
-                [
-                    require.resolve('@nuxt/babel-preset-app'),
-                    {
-                        buildTarget: isServer ? 'server' : 'client',
-                        corejs: { version: 3 }
-                    }
-                ]
-            ]
-        }
+      presets ({ isServer }) {
+        return [
+          [
+            require.resolve('@nuxt/babel-preset-app'),
+            {
+              buildTarget: isServer ? 'server' : 'client',
+              corejs: { version: 3 }
+            }
+          ]
+        ]
+      }
     }
-},
+  },
   generate: {
     dir: '../../static'
   }
