@@ -18,7 +18,7 @@
     "bootstrap-vue": "^2.15.0",
     "core-js": "^3.6.5",
     "firebase": "^9.22.1",
-    "nuxt": "^2.16.3",
+    "nuxt": "^3.5.3",
     "vuexfire": "^3.2.2"
   },
   "devDependencies": {
