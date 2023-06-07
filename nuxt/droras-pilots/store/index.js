@@ -9,12 +9,16 @@ export const mutations = {
   SET_HEATS (state, heats) {
     state.heats = heats
   },
+  SET_TITLE (state, title) {
+    state.title = title
+  },
   ...vuexfireMutations
 }
 const db = firebase.firestore()
 const currentRef = db.collection('race').doc('current')
 
 export const state = () => ({
+  title: '',
   current: {},
   heats: []
 })
@@ -29,6 +33,11 @@ export const getters = {
 }
 
 export const actions = {
+  async initTitle ({ commit, state }) {
+    const response = await axios.get('https://docs.google.com/spreadsheets/d/e/2PACX-1vQSIb1_Hys9ai97Mlf9LnxHaSFdWciZ2IC9kCTMbEQAHe7lvuM-7D-_8iKOtwibWMFL1ff1bP-keLJm/pub?gid=0&single=true&output=csv')
+    const title = response.data.split(',')[1].trim()
+    commit('SET_TITLE', title)
+  },
   async initRaces ({ commit, state }) {
     if (state.heats.length > 0) { return }
 

@@ -3,8 +3,7 @@
     <div class="header">
       <div class="title">
         <img src="/jdl.png">
-        <span>JDL 2022 ROUND 6</span>
-        <span class="location">@川田公園</span>
+        <span>{{ title }}</span>
       </div>
       <table class="table freq">
         <thead>
@@ -43,7 +42,7 @@
         <a href="https://speedhive.mylaps.com/ja/Organizations/354884" target="new">MYLAPS Result</a> |
         <a href="https://www.japandroneleague.com/%E5%95%8F%E3%81%84%E5%90%88%E3%82%8F%E3%81%9B" target="new">Contact</a>
       </div>
-      <div>©2022 JAPAN DRONE LEAGUE</div>
+      <div>©2023 JAPAN DRONE LEAGUE</div>
     </div>
   </div>
 </template>
@@ -51,6 +50,9 @@
 <script>
 export default {
   computed: {
+    title () {
+      return this.$store.state.title
+    },
     heats () {
       const current = this.$store.state.current.heat | 0
       const allHeats = {}
@@ -65,6 +67,7 @@ export default {
     }
   },
   created () {
+    this.$store.dispatch('initTitle')
     this.$store.dispatch('initRaces')
     this.$store.dispatch('initCurrent')
   }
