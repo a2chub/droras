@@ -30,5 +30,5 @@ six==1.12.0
 urllib3==1.25.3
 uvicorn==0.8.6
 uvloop==0.12.2
-websockets==7.0
+websockets==9.1
 Werkzeug==0.15.4
