@@ -64,7 +64,7 @@ def start_sound():
 def start_signal():
   start_alert = pygame.mixer.Sound("snd/po-n.wav")
   start_alert.play()
-  sleep(1.0)
+  sleep(0.35)
   #GPIO.output(27,  1)
   led_off()
 
