@@ -34,9 +34,9 @@ def load_heat():
 @app.get('/api/start')
 async def start():
     global CURRENT_HEAT_INDEX, all_heat_list
+    await count_down()
     current_pilots = get_heat_pilots(CURRENT_HEAT_INDEX, all_heat_list)
     logger.info(f"{CURRENT_HEAT_INDEX},start_heat,{current_pilots}")
-    await count_down()
     return {"status":200}
 
 async def count_down():
