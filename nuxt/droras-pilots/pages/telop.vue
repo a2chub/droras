@@ -14,7 +14,7 @@
 export default {
   computed: {
     pilots () {
-      const current = this.$store.state.current.heat | 0
+      const current = this.$store.state.current ? this.$store.state.current.heat | 0 : 0
       return this.$store.state.heats.filter((heat, index) => index + 1 === current)[0]
     }
   },

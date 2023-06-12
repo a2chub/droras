@@ -12,7 +12,7 @@ def get_heat_list(url=url):
   # ステータスコードが200 (成功) の場合
   if r.status_code == 200:
     # ファイルにデータを書き込む
-    with open("log/heat_list_dl.csv", "wb") as file:
+    with open("log/heat_list.csv", "wb") as file:
       file.write(r.content)
     # ダウンロード完了のメッセージを表示
     print("ファイルのダウンロードが完了しました。")
