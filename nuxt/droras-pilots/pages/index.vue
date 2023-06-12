@@ -54,7 +54,7 @@ export default {
       return this.$store.state.title
     },
     heats () {
-      const current = this.$store.state.current.heat | 0
+      const current = this.$store.state.current ? this.$store.state.current.heat | 0 : 0
       const allHeats = {}
       for (const [index, pilots] of this.$store.state.heats.entries()) {
         const klass = pilots.find(p => p.name).class
