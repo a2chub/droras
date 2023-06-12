@@ -35,7 +35,10 @@ def load_heat():
 async def start():
     global CURRENT_HEAT_INDEX, all_heat_list
     await count_down()
-    current_pilots = get_heat_pilots(CURRENT_HEAT_INDEX, all_heat_list)
+    try:
+      current_pilots = get_heat_pilots(CURRENT_HEAT_INDEX, all_heat_list)
+    except:
+      logger.err(f"{CURRENT_HEAT_INDEX},firebase_send_error,{current_pilots}")
     logger.info(f"{CURRENT_HEAT_INDEX},start_heat,{current_pilots}")
     return {"status":200}
 
