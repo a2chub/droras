@@ -36,12 +36,6 @@ def load_heat():
         print("no load heat list")
         all_heat_list = []
 
-@app.get('/')
-@app.get('/{heat_index}')
-def index():
-    return FileResponse(os.path.join(STATIC_DIR, "index.html"))
-
-
 # リレーの制御とスター音を鳴らす
 @app.get('/api/start')
 async def start():
@@ -99,5 +93,10 @@ async def log_upload():
     logger.info(f"Upload Log file")
     _script_path = "../0_log_upload.sh"
     subprocess.call(_script_path, shell=True)
+
+@app.get('/')
+@app.get('/{heat_index}')
+def index():
+    return FileResponse(os.path.join(STATIC_DIR, "index.html"))
 
 app.mount("/", StaticFiles(directory=STATIC_DIR), name="static")
