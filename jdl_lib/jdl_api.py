@@ -36,6 +36,12 @@ def load_heat():
         print("no load heat list")
         all_heat_list = []
 
+@app.get('/')
+@app.get('/{heat_index}')
+def index():
+    return FileResponse(os.path.join(STATIC_DIR, "index.html"))
+
+
 # リレーの制御とスター音を鳴らす
 @app.get('/api/start')
 async def start():
