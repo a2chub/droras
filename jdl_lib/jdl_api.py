@@ -4,8 +4,14 @@ from fastapi.responses import RedirectResponse
 from webapp import start_sound
 from convert_heatlist import load_heat_list, get_heat_pilots, get_heat_list
 from start_log import logger
+import os
 import pprint
 import subprocess
+
+current_script_path = os.path.abspath(__file__)
+current_dir_path = os.path.dirname(current_script_path)
+BASE_DIR = os.path.dirname(current_dir_path)
+STATIC_DIR = os.path.join(BASE_DIR, "static")
 
 app = FastAPI()
 CURRENT_HEAT_INDEX = 1
@@ -88,5 +94,4 @@ async def log_upload():
     _script_path = "../0_log_upload.sh"
     subprocess.call(_script_path, shell=True)
 
-app.mount("/", StaticFiles(directory="../static"), name="static")
-
+app.mount("/", StaticFiles(directory=STATIC_DIR), name="static")
