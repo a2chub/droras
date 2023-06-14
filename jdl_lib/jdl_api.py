@@ -77,15 +77,17 @@ async def set_cur_heat_fb(heat_id=1):
 async def reload_csv():
     load_heat()
     print("CSVファイルの再読み込みが完了しました")
+    return {"success":True}
 
 
-@app.get('/csv_dwonload')
+@app.get('/csv_download')
 async def reload_csv():
     print("CSVダウンロードが開始しました")
     logger.info(f"Download csv file")
     get_heat_list()
     h_list = load_heat_list()
     pprint.pprint(h_list, indent=4)
+    return {"success":True}
 
 @app.get('/log_upload')
 async def log_upload():
@@ -93,6 +95,7 @@ async def log_upload():
     logger.info(f"Upload Log file")
     _script_path = "../0_log_upload.sh"
     subprocess.call(_script_path, shell=True)
+    return {"success":True}
 
 @app.get('/')
 @app.get('/{heat_index}')
