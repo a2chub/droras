@@ -43,7 +43,10 @@ async def start():
     return {"status":200}
 
 async def count_down():
-    start_sound()
+    import platform
+    if platform.system() != 'Darwin':
+        from webapp import start_sound
+        start_sound()
 
 @app.get('/api/{heat_index}')
 async def set_current(heat_index: int = 1):
