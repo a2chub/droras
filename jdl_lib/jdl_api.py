@@ -1,12 +1,13 @@
-from fastapi import FastAPI, Request, Depends, BackgroundTasks
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import RedirectResponse
-from webapp import start_sound
-from convert_heatlist import load_heat_list, get_heat_pilots, get_heat_list
-from start_log import logger
 import os
 import pprint
 import subprocess
+
+from convert_heatlist import get_heat_list, get_heat_pilots, load_heat_list
+from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
+from google.cloud import firestore
+from starlette.responses import FileResponse
+from start_log import logger
 
 current_script_path = os.path.abspath(__file__)
 current_dir_path = os.path.dirname(current_script_path)
@@ -18,7 +19,6 @@ CURRENT_HEAT_INDEX = 1
 all_heat_list = []
 
 try:
-    from google.cloud import firestore
     db = firestore.Client()
     race_ref = db.collection(u'race').document(u'current')
     print("connected firestore complete")
