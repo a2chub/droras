@@ -43,6 +43,7 @@ async def start():
     await count_down()
     try:
       current_pilots = get_heat_pilots(CURRENT_HEAT_INDEX, all_heat_list)
+      print(current_pilots)
     except:
       logger.err(f"{CURRENT_HEAT_INDEX},firebase_send_error,{current_pilots}")
     logger.info(f"{CURRENT_HEAT_INDEX},start_heat,{current_pilots}")
@@ -59,6 +60,7 @@ async def set_current(heat_index: int = 1):
     global CURRENT_HEAT_INDEX, all_heat_list
     CURRENT_HEAT_INDEX = heat_index
     current_pilots = get_heat_pilots(CURRENT_HEAT_INDEX, all_heat_list)
+    print(current_pilots)
     logger.info(f"{CURRENT_HEAT_INDEX},change_heat,{current_pilots}")
     try:
         print("call set_cur_heat_fb")
@@ -94,8 +96,11 @@ async def log_upload():
     print("logファイルのアップロード開始")
     logger.info(f"Upload Log file")
     _script_path = "../0_log_upload.sh"
-    subprocess.call(_script_path, shell=True)
-    return {"success":True}
+    try:
+      subprocess.call(_script_path, shell=True)
+    except:
+      print("file upload fail")
+
 
 @app.get('/')
 @app.get('/{heat_index}')
@@ -103,3 +108,5 @@ def index():
     return FileResponse(os.path.join(STATIC_DIR, "index.html"))
 
 app.mount("/", StaticFiles(directory=STATIC_DIR), name="static")
+
+load_heat()
