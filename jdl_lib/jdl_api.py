@@ -83,7 +83,11 @@ async def log_upload():
     print("logファイルのアップロード開始")
     logger.info(f"Upload Log file")
     _script_path = "../0_log_upload.sh"
-    subprocess.call(_script_path, shell=True)
+    try:
+      subprocess.call(_script_path, shell=True)
+    except:
+      print("file upload fail")
+
 
 app.mount("/", StaticFiles(directory="../static"), name="static")
 
