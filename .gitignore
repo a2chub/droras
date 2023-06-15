@@ -109,3 +109,4 @@ jdl-main-key.json
 /nuxt/droras-pilots/static/pilots.csv
 /static/pilots.csv
 .firebase
+jdl_lib/log/

@@ -23,6 +23,10 @@
       nuxt-link.btn.btn-lg.btn-primary(role='button', :to='next()') 次のヒート<kbd>3</kbd>
     #progress.progress(style={height: '30px'})
       .progress-bar(v-bind:style="{width: progress + '%'}") {{ currentTime }}
+    .csv-buttons.d-flex.my-3.justify-content-md-end.opacity
+      button.btn.btn-sm.btn-outline-secondary(type='button', v-on:click='downloadCsv') CSVダウンロード
+      button.btn.btn-sm.btn-outline-secondary(type='button', v-on:click='reloadCsv') CSVリロード
+      button.btn.btn-sm.btn-outline-secondary(type='button', v-on:click='uplodCsv') CSVアップロード
 </template>
 
 <script>
@@ -115,6 +119,15 @@ export default {
           this.goNext()
           break
       }
+    },
+    downloadCsv () {
+      this.$axios.get('/csv_download')
+    },
+    reloadCsv () {
+      this.$axios.get('/csv_reload')
+    },
+    uplodCsv () {
+      this.$axios.get('/log_upload')
     }
   }
 }
@@ -136,4 +149,7 @@ tr.active
   margin-top 15px
   .progress-bar
     font-size larger
+.csv-buttons
+  opacity 0.5
+  gap 10px
 </style>
