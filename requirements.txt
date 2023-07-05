@@ -11,7 +11,7 @@ google-cloud-core==1.0.3
 google-cloud-firestore==1.4.0
 googleapis-common-protos==1.6.0
 gpiozero==1.5.0
-grpcio==1.23.0
+grpcio==1.53.0
 h11==0.8.1
 httptools==0.0.13
 idna==2.8
