@@ -57,7 +57,8 @@ export default {
       const current = this.$store.state.current ? this.$store.state.current.heat | 0 : 0
       const allHeats = {}
       for (const [index, pilots] of this.$store.state.heats.entries()) {
-        const klass = pilots.find(p => p.name).class
+        const pilot = pilots.find(p => p.name)
+        const klass = pilot ? pilot.class : pilots[0].class
         if (!(klass in allHeats)) {
           allHeats[klass] = []
         }
