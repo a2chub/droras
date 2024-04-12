@@ -56,7 +56,8 @@ export default {
       for (let i = current - 2; i <= current; i++) {
         const index = (i + total) % total
         const pilots = this.$store.state.heats[index]
-        const klass = pilots.find(p => p.name).class
+        const pilot = pilots.find(p => p.name)
+        const klass = pilot ? pilot.class : pilots[0].class
         heats.push({ index: index + 1, class: klass, pilots, active: i + 1 === current })
       }
       return heats
