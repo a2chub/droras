@@ -7,9 +7,6 @@
     >
       {{ pilot.name }}
     </div>
-    <div class="heat-index">
-      {{ heatIndex }}
-    </div>
   </div>
 </template>
 
