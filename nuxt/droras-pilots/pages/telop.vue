@@ -7,6 +7,9 @@
     >
       {{ pilot.name }}
     </div>
+    <div class="heat-index">
+      {{ heatIndex }}
+    </div>
   </div>
 </template>
 
@@ -16,6 +19,9 @@ export default {
     pilots () {
       const current = this.$store.state.current ? this.$store.state.current.heat | 0 : 0
       return this.$store.state.heats.filter((heat, index) => index + 1 === current)[0]
+    },
+    heatIndex () {
+      return this.$store.state.current.heat
     }
   },
   created () {
@@ -46,5 +52,15 @@ html, body, #__nuxt, #__layout {
   font-size: 20px;
   font-weight: bold;
   margin-top: 20px;
+}
+.heat-index {
+  color: white;
+  font-family: sans-serif;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  position: absolute;
+  top: 20px;
+  left: 10px;
 }
 </style>
