@@ -20,12 +20,13 @@ all_heat_list = []
 
 try:
     db = firestore.Client()
-    race_ref = db.collection(u'race').document(u'current')
+    race_ref = db.collection("race").document("current")
     print("connected firestore complete")
 except:
     print(" no firestore")
     db = ""
     pass
+
 
 def load_heat():
     global all_heat_list
@@ -36,26 +37,31 @@ def load_heat():
         print("no load heat list")
         all_heat_list = []
 
+
 # リレーの制御とスター音を鳴らす
-@app.get('/api/start')
+@app.get("/api/start")
 async def start():
     global CURRENT_HEAT_INDEX, all_heat_list
     await count_down()
     try:
-      current_pilots = get_heat_pilots(CURRENT_HEAT_INDEX, all_heat_list)
-      print(current_pilots)
+        current_pilots = get_heat_pilots(CURRENT_HEAT_INDEX, all_heat_list)
+        print(current_pilots)
     except:
-      logger.err(f"{CURRENT_HEAT_INDEX},firebase_send_error,{current_pilots}")
+        logger.err(f"{CURRENT_HEAT_INDEX},firebase_send_error,{current_pilots}")
     logger.info(f"{CURRENT_HEAT_INDEX},start_heat,{current_pilots}")
-    return {"status":200}
+    return {"status": 200}
+
 
 async def count_down():
     import platform
-    if platform.system() != 'Darwin':
+
+    if platform.system() != "Darwin":
         from webapp import start_sound
+
         start_sound()
 
-@app.get('/api/{heat_index}')
+
+@app.get("/api/{heat_index}")
 async def set_current(heat_index: int = 1):
     global CURRENT_HEAT_INDEX, all_heat_list
     CURRENT_HEAT_INDEX = heat_index
@@ -66,46 +72,48 @@ async def set_current(heat_index: int = 1):
         print("call set_cur_heat_fb")
         await set_cur_heat_fb(str(heat_index))
     except:
-        print('no send firestore')
+        print("no send firestore")
     return {"heat_id": heat_index}
+
 
 async def set_cur_heat_fb(heat_id=1):
     print("send firebase")
-    race_ref.set({
-        u'heat': u'%s' % (heat_id)
-    })
+    race_ref.set({"heat": "%s" % (heat_id)})
 
-@app.get('/csv_reload')
+
+@app.get("/csv_reload")
 async def reload_csv():
     load_heat()
     print("CSVファイルの再読み込みが完了しました")
-    return {"success":True}
+    return {"success": True}
 
 
-@app.get('/csv_download')
+@app.get("/csv_download")
 async def reload_csv():
     print("CSVダウンロードが開始しました")
     logger.info(f"Download csv file")
     get_heat_list()
     h_list = load_heat_list()
     pprint.pprint(h_list, indent=4)
-    return {"success":True}
+    return {"success": True}
 
-@app.get('/log_upload')
+
+@app.get("/log_upload")
 async def log_upload():
     print("logファイルのアップロード開始")
     logger.info(f"Upload Log file")
     _script_path = "../0_log_upload.sh"
     try:
-      subprocess.call(_script_path, shell=True)
+        subprocess.call(_script_path, shell=True)
     except:
-      print("file upload fail")
+        print("file upload fail")
 
 
-@app.get('/')
-@app.get('/{heat_index}')
+@app.get("/")
+@app.get("/{heat_index}")
 def index():
     return FileResponse(os.path.join(STATIC_DIR, "index.html"))
+
 
 app.mount("/", StaticFiles(directory=STATIC_DIR), name="static")
 
