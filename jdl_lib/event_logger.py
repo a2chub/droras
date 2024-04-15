@@ -1,10 +1,15 @@
 import logging
-from logging.handlers import TimedRotatingFileHandler  # この行を追加
+import os
+from logging.handlers import TimedRotatingFileHandler
+
+import jdl_lib.config as config
 
 logger = logging.getLogger("heatStartLog")
 logger.setLevel(logging.INFO)
 
-handler = TimedRotatingFileHandler("./log/heat_start.csv", when="MIDNIGHT", interval=1, backupCount=100)
+handler = TimedRotatingFileHandler(
+    os.path.join(config.LOG_DIR, "heat_start.csv"), when="MIDNIGHT", interval=1, backupCount=100
+)
 
 logger.addHandler(handler)
 

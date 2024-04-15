@@ -8,12 +8,8 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from starlette.responses import FileResponse
 
+import jdl_lib.config as config
 from jdl_lib.race_manager import RaceManager
-
-# directory structure
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-STATIC_DIR = os.path.join(BASE_DIR, "static")
-LOG_DIR = os.path.join(BASE_DIR, "log")
 
 # logging
 logger = logging.getLogger(__name__)
@@ -21,7 +17,7 @@ logger.setLevel(logging.DEBUG)
 
 formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 
-file_handler = logging.FileHandler(os.path.join(LOG_DIR, "app.log"))
+file_handler = logging.FileHandler(os.path.join(config.LOG_DIR, "app.log"))
 file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 
@@ -65,7 +61,7 @@ async def download_csv():
 async def upload_log():
     logger.info("Starting log upload")
     try:
-        script_path = os.path.join(BASE_DIR, "0_log_upload.sh")
+        script_path = os.path.join(config.BASE_DIR, "0_log_upload.sh")
         subprocess.call(script_path, shell=True)
     except:
         logger.error("Failed to upload log file")
@@ -75,9 +71,9 @@ async def upload_log():
 @app.get("/")
 @app.get("/{heat_index}")
 def index():
-    return FileResponse(os.path.join(STATIC_DIR, "index.html"))
+    return FileResponse(os.path.join(config.STATIC_DIR, "index.html"))
 
 
-app.mount("/", StaticFiles(directory=STATIC_DIR), name="static")
+app.mount("/", StaticFiles(directory=config.STATIC_DIR), name="static")
 
 race_manager.load_heat()
