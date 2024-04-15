@@ -2,7 +2,7 @@ import logging
 import os
 from logging.handlers import TimedRotatingFileHandler
 
-import jdl_lib.config as config
+from . import config
 
 logger = logging.getLogger("heatStartLog")
 logger.setLevel(logging.INFO)

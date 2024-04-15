@@ -3,27 +3,16 @@ import os
 import pprint
 import subprocess
 
-from convert_heatlist import get_heat_list, load_heat_list
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from starlette.responses import FileResponse
 
-import jdl_lib.config as config
-from jdl_lib.race_manager import RaceManager
+from . import config
+from .convert_heatlist import get_heat_list, load_heat_list
+from .race_manager import RaceManager
 
-# logging
+
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-
-formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-
-file_handler = logging.FileHandler(os.path.join(config.LOG_DIR, "app.log"))
-file_handler.setFormatter(formatter)
-logger.addHandler(file_handler)
-
-console_handler = logging.StreamHandler()
-console_handler.setFormatter(formatter)
-logger.addHandler(console_handler)
 
 # app main
 app = FastAPI()

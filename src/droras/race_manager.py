@@ -1,9 +1,9 @@
 import logging
 
-from convert_heatlist import get_heat_pilots, load_heat_list
 from google.cloud import firestore
 
-import jdl_lib.event_logger as event_logger
+from . import event_logger
+from .convert_heatlist import get_heat_pilots, load_heat_list
 
 logger = logging.getLogger(__name__)
 
@@ -46,7 +46,7 @@ class RaceManager:
         import platform
 
         if platform.system() != "Darwin":
-            from webapp import start_sound
+            from device import start_sound
 
             start_sound()
 
