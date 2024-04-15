@@ -1,13 +1,28 @@
 import os
 import pprint
 import subprocess
+import logging
 
 from convert_heatlist import get_heat_list, get_heat_pilots, load_heat_list
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from google.cloud import firestore
 from starlette.responses import FileResponse
-from start_log import logger
+import jdl_lib.event_logger as event_logger
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+
+formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+
+file_handler = logging.FileHandler("app.log")
+file_handler.setFormatter(formatter)
+logger.addHandler(file_handler)
+
+console_handler = logging.StreamHandler()
+console_handler.setFormatter(formatter)
+logger.addHandler(console_handler)
+
 
 current_script_path = os.path.abspath(__file__)
 current_dir_path = os.path.dirname(current_script_path)
@@ -21,9 +36,9 @@ all_heat_list = []
 try:
     db = firestore.Client()
     race_ref = db.collection("race").document("current")
-    print("connected firestore complete")
+    logger.info("Successfully connected to Firestore")
 except:
-    print(" no firestore")
+    logger.error("Failed to connect to Firestore")
     db = ""
     pass
 
@@ -32,9 +47,9 @@ def load_heat():
     global all_heat_list
     try:
         all_heat_list = load_heat_list()
-        logger.info(f"load csv heat list")
+        logger.info("Successfully loaded heat list")
     except:
-        print("no load heat list")
+        logger.error("Failed to load heat list")
         all_heat_list = []
 
 
@@ -45,10 +60,10 @@ async def start():
     await count_down()
     try:
         current_pilots = get_heat_pilots(CURRENT_HEAT_INDEX, all_heat_list)
-        print(current_pilots)
+        logger.info(str(current_pilots))
     except:
-        logger.err(f"{CURRENT_HEAT_INDEX},firebase_send_error,{current_pilots}")
-    logger.info(f"{CURRENT_HEAT_INDEX},start_heat,{current_pilots}")
+        event_logger.log_heat_error(CURRENT_HEAT_INDEX, current_pilots)
+    event_logger.log_heat_start(CURRENT_HEAT_INDEX, current_pilots)
     return {"status": 200}
 
 
@@ -62,51 +77,48 @@ async def count_down():
 
 
 @app.get("/api/{heat_index}")
-async def set_current(heat_index: int = 1):
+async def set_current_heat(heat_index: int = 1):
     global CURRENT_HEAT_INDEX, all_heat_list
     CURRENT_HEAT_INDEX = heat_index
     current_pilots = get_heat_pilots(CURRENT_HEAT_INDEX, all_heat_list)
-    print(current_pilots)
-    logger.info(f"{CURRENT_HEAT_INDEX},change_heat,{current_pilots}")
+    logger.info(str(current_pilots))
+    event_logger.log_heat_change(CURRENT_HEAT_INDEX, current_pilots)
     try:
-        print("call set_cur_heat_fb")
-        await set_cur_heat_fb(str(heat_index))
+        logger.info("Calling set_cur_heat_fb")
+        await set_current_heat_on_firestore(str(heat_index))
     except:
-        print("no send firestore")
+        logger.error("Failed to send to Firestore")
     return {"heat_id": heat_index}
 
 
-async def set_cur_heat_fb(heat_id=1):
-    print("send firebase")
-    race_ref.set({"heat": "%s" % (heat_id)})
+async def set_current_heat_on_firestore(heat_id: int = 1):
+    logger.info("Sending to Firestore")
+    race_ref.set({"heat": str(heat_id)})
 
 
-@app.get("/csv_reload")
+@app.get("/reload-csv")
 async def reload_csv():
     load_heat()
-    print("CSVファイルの再読み込みが完了しました")
+    logger.info("CSV reload completed")
     return {"success": True}
 
 
-@app.get("/csv_download")
-async def reload_csv():
-    print("CSVダウンロードが開始しました")
-    logger.info(f"Download csv file")
+@app.get("/download-csv")
+async def download_csv():
+    logger.info("CSV download started")
     get_heat_list()
-    h_list = load_heat_list()
-    pprint.pprint(h_list, indent=4)
+    heat_list = load_heat_list()
+    pprint.pprint(heat_list, indent=4)
     return {"success": True}
 
 
-@app.get("/log_upload")
-async def log_upload():
-    print("logファイルのアップロード開始")
-    logger.info(f"Upload Log file")
-    _script_path = "../0_log_upload.sh"
+@app.get("/upload-log")
+async def upload_log():
+    logger.info("Starting log upload")
     try:
-        subprocess.call(_script_path, shell=True)
+        subprocess.call("../0_log_upload.sh", shell=True)
     except:
-        print("file upload fail")
+        logger.error("Failed to upload log file")
 
 
 @app.get("/")
