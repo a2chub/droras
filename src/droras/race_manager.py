@@ -53,7 +53,7 @@ class RaceManager:
     async def set_current_heat(self, heat_index):
         self.current_heat_index = heat_index
         current_pilots = get_heat_pilots(self.current_heat_index, self.all_heat_list)
-        logger.info(str(current_pilots))
+        logger.debug(str(current_pilots))
         event_logger.log_heat_change(self.current_heat_index, current_pilots)
         try:
             logger.info("Calling set_cur_heat_fb")

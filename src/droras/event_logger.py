@@ -18,12 +18,12 @@ handler.setFormatter(format)
 
 
 def log_heat_start(heat_index, pilots):
-    logger.info(f"{heat_index},start_heat,{','.join(pilots)}")
+    logger.info(f"{heat_index},start_heat,{pilots}")
 
 
 def log_heat_change(heat_index, pilots):
-    logger.info(f"{heat_index},change_heat,{','.join(pilots)}")
+    logger.info(f"{heat_index},change_heat,{pilots}")
 
 
 def log_heat_error(heat_index, pilots):
-    logger.error(f"{heat_index},firebase_send_error,{','.join(pilots)}")
+    logger.error(f"{heat_index},firebase_send_error,{pilots}")
