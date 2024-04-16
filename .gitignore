@@ -110,3 +110,4 @@ jdl-main-key.json
 /static/pilots.csv
 .firebase
 jdl_lib/log/
+log/
