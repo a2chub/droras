@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useSocket } from "@/lib/socket";
 
@@ -25,16 +25,69 @@ const TableRow = (params: {
 	);
 };
 
+function ProgressBar(params: { enabled: boolean; onStop: () => void }) {
+	const timerRef = useRef(0);
+	const startTime = useRef(0);
+	const DURATION = 120;
+	const [progress, setProgress] = useState(0);
+	const [timeText, setTimeText] = useState("0:00");
+
+	useEffect(() => {
+		function stop() {
+			if (timerRef.current) {
+				window.clearInterval(timerRef.current);
+				timerRef.current = 0;
+				params.onStop();
+			}
+		}
+		if (params.enabled) {
+			startTime.current = Date.now();
+			timerRef.current = window.setInterval(() => {
+				const elapsed = Math.floor((Date.now() - startTime.current) / 1000);
+				if (elapsed > DURATION) {
+					stop();
+					return;
+				}
+				const minutes = Math.floor(elapsed / 60);
+				const seconds = Math.floor(elapsed % 60);
+				setTimeText(`${minutes}:${seconds.toString().padStart(2, "0")}`);
+				setProgress((elapsed / DURATION) * 100);
+			}, 1000);
+		} else {
+			stop();
+			setTimeText("0:00");
+			setProgress(0);
+		}
+		return () => window.clearInterval(timerRef.current);
+	}, [params]);
+
+	return (
+		<div className="relative w-full h-8 overflow-hidden bg-gray-200 rounded-md">
+			<div className="h-full bg-blue-500" style={{ width: `${progress}%` }} />
+			<div className="absolute top-0 flex items-center h-full px-2 text-white">
+				{timeText}
+			</div>
+		</div>
+	);
+}
+
 function App() {
 	// currentHeat is 1-based
 	const { currentHeat, setCurrentHeat, heatList, startHeat } = useSocket();
 	const numHeats = heatList.length;
+
+	const [timerEnabled, setTimerEnabled] = useState(false);
 
 	useEffect(() => {
 		if (currentHeat > 0) {
 			window.history.pushState({}, "", `/${currentHeat}`);
 		}
 	}, [currentHeat]);
+
+	const handleStart = useCallback(() => {
+		setTimerEnabled(true);
+		startHeat();
+	}, [startHeat]);
 
 	const goPrev = useCallback(() => {
 		setCurrentHeat(((currentHeat - 1 + numHeats - 1) % numHeats) + 1);
@@ -53,7 +106,7 @@ function App() {
 		function onKeyDown(e: KeyboardEvent) {
 			switch (e.key) {
 				case "1":
-					startHeat();
+					handleStart();
 					break;
 				case "2":
 					goPrev();
@@ -65,11 +118,11 @@ function App() {
 		}
 		window.addEventListener("keydown", onKeyDown);
 		return () => window.removeEventListener("keydown", onKeyDown);
-	}, [startHeat, goPrev, goNext]);
+	}, [handleStart, goPrev, goNext]);
 
 	return (
 		<div className="container max-w-screen-md pt-4 mx-auto text-lg">
-			<table className="w-full table-auto">
+			<table className="w-full mb-6 table-auto">
 				<thead>
 					<tr className="border-b-2">
 						<th className="py-3">Heat</th>
@@ -104,10 +157,19 @@ function App() {
 					)}
 				</thead>
 			</table>
+			<div className="w-full my-6">
+				<ProgressBar
+					enabled={timerEnabled}
+					onStop={() => {
+						setTimerEnabled(false);
+						goNext();
+					}}
+				/>
+			</div>
 			<div className="flex justify-center gap-4 mt-6">
 				<Button
 					className="py-6 text-xl bg-green-600 hover:bg-green-600/90"
-					onClick={startHeat}
+					onClick={handleStart}
 				>
 					スタート
 					<kbd className="flex items-center justify-center w-6 h-6 ml-2 bg-gray-800 rounded text-md">
