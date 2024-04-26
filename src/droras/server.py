@@ -3,6 +3,7 @@ import os
 import pprint
 import subprocess
 
+import socketio
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from starlette.responses import FileResponse
@@ -11,11 +12,14 @@ from . import config
 from .convert_heatlist import get_heat_list, load_heat_list
 from .race_manager import RaceManager
 
-
 logger = logging.getLogger(__name__)
 
 # app main
+origins = ["*", "http://localhost:5173"]
+sio = socketio.AsyncServer(async_mode="asgi", cors_allowed_origins=origins)
+sio_app = socketio.ASGIApp(socketio_server=sio, static_files={"/": config.STATIC_DIR})
 app = FastAPI()
+
 race_manager = RaceManager()
 
 
@@ -56,13 +60,38 @@ async def upload_log():
         logger.error("Failed to upload log file")
 
 
+# SocketIO events
+@sio.event
+async def connect(sid, environ, auth):
+    logger.info(f"Connected: {sid}")
+    await sio.emit("heat_list", race_manager.all_heat_list[1:], room=sid)
+
+
+@sio.event
+def disconnect(sid):
+    logger.info(f"Disconnect: {sid}")
+
+
+@sio.on("set_current_heat")
+async def set_current_heat_socket(sid, data):
+    heat_index = int(data)
+    logger.info(f"Set current heat: {heat_index}")
+    await race_manager.set_current_heat(heat_index)
+    await sio.emit("set_current_heat", heat_index)
+
+
 # static files
 @app.get("/")
-@app.get("/{heat_index}")
 def index():
     return FileResponse(os.path.join(config.STATIC_DIR, "index.html"))
 
 
-app.mount("/", StaticFiles(directory=config.STATIC_DIR), name="static")
+app.mount("/", sio_app)
+
+
+@app.get("/{heat_index}")
+def index():
+    return FileResponse(os.path.join(config.STATIC_DIR, "index.html"))
+
 
 race_manager.load_heat()
