@@ -15,7 +15,7 @@ from .race_manager import RaceManager
 logger = logging.getLogger(__name__)
 
 # app main
-origins = ["*", "http://localhost:5173"]
+origins = ["*", "http://localhost:5173", "http://localhost:8000"]
 sio = socketio.AsyncServer(async_mode="asgi", cors_allowed_origins=origins)
 sio_app = socketio.ASGIApp(socketio_server=sio, static_files={"/": config.STATIC_DIR})
 app = FastAPI()
@@ -65,6 +65,7 @@ async def upload_log():
 async def connect(sid, environ, auth):
     logger.info(f"Connected: {sid}")
     await sio.emit("heat_list", race_manager.all_heat_list[1:], room=sid)
+    await sio.emit("current_heat", race_manager.current_heat_index, room=sid)
 
 
 @sio.event
@@ -77,7 +78,7 @@ async def set_current_heat_socket(sid, data):
     heat_index = int(data)
     logger.info(f"Set current heat: {heat_index}")
     await race_manager.set_current_heat(heat_index)
-    await sio.emit("set_current_heat", heat_index)
+    await sio.emit("current_heat", heat_index)
 
 
 # static files
@@ -86,12 +87,13 @@ def index():
     return FileResponse(os.path.join(config.STATIC_DIR, "index.html"))
 
 
-app.mount("/", sio_app)
-
-
 @app.get("/{heat_index}")
-def index():
+async def index(heat_index: int):
+    await race_manager.set_current_heat(heat_index)
     return FileResponse(os.path.join(config.STATIC_DIR, "index.html"))
+
+
+app.mount("/", sio_app)
 
 
 race_manager.load_heat()

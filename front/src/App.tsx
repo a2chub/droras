@@ -30,6 +30,12 @@ function App() {
 	const { currentHeat, setCurrentHeat, heatList } = useSocket();
 	const numHeats = heatList.length;
 
+	useEffect(() => {
+		if (currentHeat > 0) {
+			window.history.pushState({}, "", `/${currentHeat}`);
+		}
+	}, [currentHeat]);
+
 	const goPrev = useCallback(() => {
 		setCurrentHeat(((currentHeat - 1 + numHeats - 1) % numHeats) + 1);
 	}, [currentHeat, numHeats, setCurrentHeat]);
