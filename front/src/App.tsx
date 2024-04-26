@@ -27,7 +27,7 @@ const TableRow = (params: {
 
 function App() {
 	// currentHeat is 1-based
-	const { currentHeat, setCurrentHeat, heatList } = useSocket();
+	const { currentHeat, setCurrentHeat, heatList, startHeat } = useSocket();
 	const numHeats = heatList.length;
 
 	useEffect(() => {
@@ -52,6 +52,9 @@ function App() {
 	useEffect(() => {
 		function onKeyDown(e: KeyboardEvent) {
 			switch (e.key) {
+				case "1":
+					startHeat();
+					break;
 				case "2":
 					goPrev();
 					break;
@@ -62,7 +65,7 @@ function App() {
 		}
 		window.addEventListener("keydown", onKeyDown);
 		return () => window.removeEventListener("keydown", onKeyDown);
-	}, [goPrev, goNext]);
+	}, [startHeat, goPrev, goNext]);
 
 	return (
 		<div className="container max-w-screen-md pt-4 mx-auto text-lg">
@@ -102,7 +105,10 @@ function App() {
 				</thead>
 			</table>
 			<div className="flex justify-center gap-4 mt-6">
-				<Button className="py-6 text-xl bg-green-600 hover:bg-green-600/90">
+				<Button
+					className="py-6 text-xl bg-green-600 hover:bg-green-600/90"
+					onClick={startHeat}
+				>
 					スタート
 					<kbd className="flex items-center justify-center w-6 h-6 ml-2 bg-gray-800 rounded text-md">
 						1

@@ -32,8 +32,8 @@ class RaceManager:
             logger.error("Failed to load heat list")
 
     # リレーの制御とスター音を鳴らす
-    async def start(self):
-        await self.count_down()
+    def start(self):
+        self.count_down()
         try:
             current_pilots = get_heat_pilots(self.current_heat_index, self.all_heat_list)
             logger.info(str(current_pilots))
@@ -42,7 +42,7 @@ class RaceManager:
         event_logger.log_heat_start(self.current_heat_index, current_pilots)
         return {"status": 200}
 
-    async def count_down():
+    def count_down(self):
         import platform
 
         if platform.system() != "Darwin":

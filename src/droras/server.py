@@ -25,8 +25,8 @@ race_manager = RaceManager()
 
 # API endpoints
 @app.get("/api/start")
-async def start():
-    return await race_manager.start()
+def start():
+    return race_manager.start()
 
 
 @app.get("/api/{heat_index}")
@@ -71,6 +71,12 @@ async def connect(sid, environ, auth):
 @sio.event
 def disconnect(sid):
     logger.info(f"Disconnect: {sid}")
+
+
+@sio.on("start_heat")
+def start_heat_socket(sid):
+    logger.info(f"Start heat: {sid}")
+    race_manager.start()
 
 
 @sio.on("set_current_heat")
