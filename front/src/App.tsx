@@ -44,7 +44,7 @@ function App() {
 		setCurrentHeat(((currentHeat - 1 + 1) % numHeats) + 1);
 	}, [currentHeat, numHeats, setCurrentHeat]);
 
-	const c = currentHeat - 1;
+	const c = currentHeat - 1; // to zero-based to lookup from the heat list
 	const prev = heatList[(c + numHeats - 1) % numHeats];
 	const current = heatList[c];
 	const next = heatList[(c + 1) % numHeats];
