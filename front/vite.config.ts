@@ -13,7 +13,12 @@ export default defineConfig({
 		},
 	},
 	build: {
-		outDir: "../static",
-		emptyOutDir: true,
+		outDir: "../../../static",
+		rollupOptions: {
+			input: {
+				"": path.resolve(__dirname, "src/pages/index.html"),
+				telop: path.resolve(__dirname, "src/pages/telop/index.html"),
+			},
+		},
 	},
 });
