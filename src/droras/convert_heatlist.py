@@ -44,6 +44,7 @@ def load_heat_list():
             pilot_name = pilots[ii][1]
             heat_names.append(pilot_name)
         heat_names.append(i)
+        heat_names.append(pilots[0][2])
         heat_name_list.append(heat_names)
 
     return heat_name_list
