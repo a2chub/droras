@@ -5,7 +5,6 @@ import subprocess
 
 import socketio
 from fastapi import FastAPI
-from fastapi.staticfiles import StaticFiles
 from starlette.responses import FileResponse
 
 from . import config
@@ -21,43 +20,6 @@ sio_app = socketio.ASGIApp(socketio_server=sio, static_files={"/": config.STATIC
 app = FastAPI()
 
 race_manager = RaceManager()
-
-
-# API endpoints
-@app.get("/api/start")
-def start():
-    return race_manager.start()
-
-
-@app.get("/api/{heat_index}")
-async def set_current_heat(heat_index: int = 1):
-    return await race_manager.set_current_heat(heat_index)
-
-
-@app.get("/api/reload-csv")
-async def reload_csv():
-    race_manager.load_heat()
-    logger.info("CSV reload completed")
-    return {"success": True}
-
-
-@app.get("/api/download-csv")
-async def download_csv():
-    logger.info("CSV download started")
-    get_heat_list()
-    heat_list = load_heat_list()
-    pprint.pprint(heat_list, indent=4)
-    return {"success": True}
-
-
-@app.get("/api/upload-log")
-async def upload_log():
-    logger.info("Starting log upload")
-    try:
-        script_path = os.path.join(config.BASE_DIR, "0_log_upload.sh")
-        subprocess.call(script_path, shell=True)
-    except:
-        logger.error("Failed to upload log file")
 
 
 # SocketIO events
@@ -85,6 +47,32 @@ async def set_current_heat_socket(sid, data):
     logger.info(f"Set current heat: {heat_index}")
     await race_manager.set_current_heat(heat_index)
     await sio.emit("current_heat", heat_index)
+
+
+@sio.on("reload_heat_list")
+async def reload_heat_list_socket(sid):
+    race_manager.load_heat()
+    logger.info("Heat list reloaded")
+    await sio.emit("heat_list", race_manager.all_heat_list[1:])
+
+
+@sio.on("download_heat_list")
+async def download_heat_list_socket(sid):
+    logger.info("Heat list download started")
+    get_heat_list()
+    heat_list = load_heat_list()
+    logger.info(f"Heat list download completed: {pprint.pformat(heat_list)}")
+    await sio.emit("heat_list", race_manager.all_heat_list[1:])
+
+
+@sio.on("upload_log")
+def upload_log_socket(sid):
+    logger.info("Starting log upload")
+    try:
+        script_path = os.path.join(config.BASE_DIR, "0_log_upload.sh")
+        subprocess.call(script_path, shell=True)
+    except:
+        logger.error("Failed to upload log file")
 
 
 # static files

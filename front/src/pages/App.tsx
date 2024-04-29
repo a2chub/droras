@@ -73,7 +73,15 @@ function ProgressBar(params: { enabled: boolean; onStop: () => void }) {
 
 function App() {
 	// currentHeat is 1-based
-	const { currentHeat, setCurrentHeat, heatList, startHeat } = useSocket();
+	const {
+		currentHeat,
+		setCurrentHeat,
+		heatList,
+		startHeat,
+		reloadHeatList,
+		downloadHeatList,
+		uploadLog,
+	} = useSocket();
 	const numHeats = heatList.length;
 
 	const [timerEnabled, setTimerEnabled] = useState(false);
@@ -193,6 +201,18 @@ function App() {
 					<kbd className="flex items-center justify-center w-6 h-6 ml-2 bg-gray-800 rounded text-md">
 						3
 					</kbd>
+				</Button>
+			</div>
+			<hr className="my-6" />
+			<div className="flex justify-center gap-4 text-gray-400">
+				<Button variant="outline" size="sm" onClick={reloadHeatList}>
+					ヒートリスト再読み込み
+				</Button>
+				<Button variant="outline" size="sm" onClick={downloadHeatList}>
+					ヒートリスト再ダウンロード
+				</Button>
+				<Button variant="outline" size="sm" onClick={uploadLog}>
+					ログアップロード
 				</Button>
 			</div>
 		</div>
