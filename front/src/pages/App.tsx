@@ -31,6 +31,11 @@ function ProgressBar(params: { enabled: boolean; onStop: () => void }) {
 	const DURATION = 120;
 	const [progress, setProgress] = useState(0);
 	const [timeText, setTimeText] = useState("0:00");
+	const [timeLeftText, setTimeLeftText] = useState(
+		`${Math.floor(DURATION / 60)}:${(DURATION % 60)
+			.toString()
+			.padStart(2, "0")}`,
+	);
 
 	useEffect(() => {
 		function stop() {
@@ -48,9 +53,17 @@ function ProgressBar(params: { enabled: boolean; onStop: () => void }) {
 					stop();
 					return;
 				}
-				const minutes = Math.floor(elapsed / 60);
-				const seconds = Math.floor(elapsed % 60);
-				setTimeText(`${minutes}:${seconds.toString().padStart(2, "0")}`);
+				setTimeText(
+					`${Math.floor(elapsed / 60)}:${(elapsed % 60)
+						.toString()
+						.padStart(2, "0")}`,
+				);
+				const leftSecs = DURATION - elapsed;
+				setTimeLeftText(
+					`${Math.floor(leftSecs / 60)}:${(leftSecs % 60)
+						.toString()
+						.padStart(2, "0")}`,
+				);
 				setProgress((elapsed / DURATION) * 100);
 			}, 1000);
 		} else {
@@ -62,10 +75,17 @@ function ProgressBar(params: { enabled: boolean; onStop: () => void }) {
 	}, [params]);
 
 	return (
-		<div className="relative w-full h-8 overflow-hidden bg-gray-200 rounded-md">
-			<div className="h-full bg-blue-500" style={{ width: `${progress}%` }} />
-			<div className="absolute top-0 flex items-center h-full px-2 text-white">
-				{timeText}
+		<div className="relative w-full h-8 overflow-hidden font-bold bg-gray-200 rounded-md">
+			<div className="absolute top-0 flex items-center justify-between w-full h-full px-2 text-black ">
+				<div>{timeText}</div>
+				<div>{timeLeftText}</div>
+			</div>
+			<div
+				className="absolute top-0 flex items-center justify-between w-full h-full px-2 text-white bg-blue-500"
+				style={{ clipPath: `inset(0 ${100 - progress}% 0 0)` }}
+			>
+				<div>{timeText}</div>
+				<div>{timeLeftText}</div>
 			</div>
 		</div>
 	);
