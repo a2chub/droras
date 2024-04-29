@@ -37,6 +37,18 @@ function ProgressBar(params: { enabled: boolean; onStop: () => void }) {
 			.padStart(2, "0")}`,
 	);
 
+	const setTime = useCallback((secs: number) => {
+		setTimeText(
+			`${Math.floor(secs / 60)}:${(secs % 60).toString().padStart(2, "0")}`,
+		);
+		const leftSecs = DURATION - secs;
+		setTimeLeftText(
+			`${Math.floor(leftSecs / 60)}:${(leftSecs % 60)
+				.toString()
+				.padStart(2, "0")}`,
+		);
+	}, []);
+
 	useEffect(() => {
 		function stop() {
 			if (timerRef.current) {
@@ -53,26 +65,16 @@ function ProgressBar(params: { enabled: boolean; onStop: () => void }) {
 					stop();
 					return;
 				}
-				setTimeText(
-					`${Math.floor(elapsed / 60)}:${(elapsed % 60)
-						.toString()
-						.padStart(2, "0")}`,
-				);
-				const leftSecs = DURATION - elapsed;
-				setTimeLeftText(
-					`${Math.floor(leftSecs / 60)}:${(leftSecs % 60)
-						.toString()
-						.padStart(2, "0")}`,
-				);
+				setTime(elapsed);
 				setProgress((elapsed / DURATION) * 100);
 			}, 1000);
 		} else {
 			stop();
-			setTimeText("0:00");
+			setTime(0);
 			setProgress(0);
 		}
 		return () => window.clearInterval(timerRef.current);
-	}, [params]);
+	}, [params, setTime]);
 
 	return (
 		<div className="relative w-full h-8 overflow-hidden font-bold bg-gray-200 rounded-md">
