@@ -1,6 +1,7 @@
+import asyncio
 import logging
 
-from google.cloud import firestore
+from google.cloud.firestore import AsyncClient
 
 from . import event_logger
 from .convert_heatlist import get_heat_pilots, load_heat_list
@@ -16,7 +17,7 @@ class RaceManager:
 
     def connect_to_firestore(self):
         try:
-            db = firestore.Client()
+            db = AsyncClient()
             logger.info("Successfully connected to Firestore")
             return db.collection("race").document("current")
         except:
@@ -50,18 +51,17 @@ class RaceManager:
 
             start_sound()
 
-    async def set_current_heat(self, heat_index):
+    def set_current_heat(self, heat_index):
         self.current_heat_index = heat_index
         current_pilots = get_heat_pilots(self.current_heat_index, self.all_heat_list)
         logger.debug(str(current_pilots))
         event_logger.log_heat_change(self.current_heat_index, current_pilots)
-        try:
-            logger.info("Calling set_cur_heat_fb")
-            await self.set_current_heat_on_firestore(str(heat_index))
-        except:
-            logger.error("Failed to send to Firestore")
+        asyncio.create_task(self.update_current_heat_on_firestore(str(heat_index)))
         return {"heat_id": heat_index}
 
-    async def set_current_heat_on_firestore(self, heat_id):
-        logger.info("Sending to Firestore")
-        self.race_ref.set({"heat": str(heat_id)})
+    async def update_current_heat_on_firestore(self, heat_id):
+        try:
+            await self.race_ref.set({"heat": heat_id})
+            logger.info(f"Heat {heat_id} successfully updated on Firestore")
+        except Exception as e:
+            logger.error(f"Failed to update heat {heat_id} on Firestore: {e}")

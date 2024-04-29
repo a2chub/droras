@@ -45,7 +45,7 @@ def start_heat_socket(sid):
 async def set_current_heat_socket(sid, data):
     heat_index = int(data)
     logger.info(f"Set current heat: {heat_index}")
-    await race_manager.set_current_heat(heat_index)
+    race_manager.set_current_heat(heat_index)
     await sio.emit("current_heat", heat_index)
 
 
