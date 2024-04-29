@@ -25,7 +25,7 @@ const TableRow = (params: {
 	);
 };
 
-function ProgressBar(params: { enabled: boolean; onStop: () => void }) {
+function ProgressBar(params: { enabled: boolean; onComplete: () => void }) {
 	const timerRef = useRef(0);
 	const startTime = useRef(0);
 	const DURATION = 120;
@@ -50,11 +50,13 @@ function ProgressBar(params: { enabled: boolean; onStop: () => void }) {
 	}, []);
 
 	useEffect(() => {
-		function stop() {
+		function stop(done: boolean) {
 			if (timerRef.current) {
 				window.clearInterval(timerRef.current);
 				timerRef.current = 0;
-				params.onStop();
+				if (done) {
+					params.onComplete();
+				}
 			}
 		}
 		if (params.enabled) {
@@ -62,14 +64,14 @@ function ProgressBar(params: { enabled: boolean; onStop: () => void }) {
 			timerRef.current = window.setInterval(() => {
 				const elapsed = Math.floor((Date.now() - startTime.current) / 1000);
 				if (elapsed > DURATION) {
-					stop();
+					stop(true);
 					return;
 				}
 				setTime(elapsed);
 				setProgress((elapsed / DURATION) * 100);
 			}, 1000);
 		} else {
-			stop();
+			stop(false);
 			setTime(0);
 			setProgress(0);
 		}
@@ -115,15 +117,21 @@ function App() {
 	}, [currentHeat]);
 
 	const handleStart = useCallback(() => {
-		setTimerEnabled(true);
-		startHeat();
-	}, [startHeat]);
+		if (timerEnabled) {
+			setTimerEnabled(false);
+		} else {
+			setTimerEnabled(true);
+			startHeat();
+		}
+	}, [timerEnabled, startHeat]);
 
 	const goPrev = useCallback(() => {
+		setTimerEnabled(false);
 		setCurrentHeat(((currentHeat - 1 + numHeats - 1) % numHeats) + 1);
 	}, [currentHeat, numHeats, setCurrentHeat]);
 
 	const goNext = useCallback(() => {
+		setTimerEnabled(false);
 		setCurrentHeat(((currentHeat - 1 + 1) % numHeats) + 1);
 	}, [currentHeat, numHeats, setCurrentHeat]);
 
@@ -188,20 +196,18 @@ function App() {
 				</thead>
 			</table>
 			<div className="w-full my-6">
-				<ProgressBar
-					enabled={timerEnabled}
-					onStop={() => {
-						setTimerEnabled(false);
-						goNext();
-					}}
-				/>
+				<ProgressBar enabled={timerEnabled} onComplete={goNext} />
 			</div>
 			<div className="flex justify-center gap-4 mt-6">
 				<Button
-					className="py-6 text-xl bg-green-600 hover:bg-green-600/90"
+					className={`py-6 text-xl ${
+						timerEnabled
+							? "bg-red-500 hover:bg-red-500/90"
+							: "bg-green-600 hover:bg-green-600/90"
+					} `}
 					onClick={handleStart}
 				>
-					スタート
+					{timerEnabled ? "ストップ" : "スタート"}
 					<kbd className="flex items-center justify-center w-6 h-6 ml-2 bg-gray-800 rounded text-md">
 						1
 					</kbd>
