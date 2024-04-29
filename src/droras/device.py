@@ -14,6 +14,7 @@ logger = logging.getLogger(__name__)
 # define the 4 GPIO lines we want to use
 four = LED(26)
 pygame.init()
+pygame.mixer.init()
 
 """
 scrn_flag = 0

@@ -14,8 +14,7 @@ from .race_manager import RaceManager
 logger = logging.getLogger(__name__)
 
 # app main
-origins = ["*", "http://localhost:5173", "http://localhost:8000"]
-sio = socketio.AsyncServer(async_mode="asgi", cors_allowed_origins=origins)
+sio = socketio.AsyncServer(async_mode="asgi", cors_allowed_origins="*")
 sio_app = socketio.ASGIApp(socketio_server=sio, static_files={"/": config.STATIC_DIR})
 app = FastAPI()
 
@@ -88,7 +87,7 @@ def index():
 
 @app.get("/{heat_index}")
 async def index(heat_index: int):
-    await race_manager.set_current_heat(heat_index)
+    race_manager.set_current_heat(heat_index)
     return FileResponse(os.path.join(config.STATIC_DIR, "index.html"))
 
 

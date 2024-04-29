@@ -47,7 +47,7 @@ class RaceManager:
         import platform
 
         if platform.system() != "Darwin":
-            from device import start_sound
+            from .device import start_sound
 
             start_sound()
 
