@@ -35,13 +35,13 @@ def disconnect(sid):
 
 
 @sio.on("start_heat")
-def start_heat_socket(sid):
+def start_heat(sid):
     logger.info(f"Start heat: {sid}")
     race_manager.start()
 
 
 @sio.on("set_current_heat")
-async def set_current_heat_socket(sid, data):
+async def set_current_heat(sid, data):
     heat_index = int(data)
     logger.info(f"Set current heat: {heat_index}")
     race_manager.set_current_heat(heat_index)
@@ -49,14 +49,14 @@ async def set_current_heat_socket(sid, data):
 
 
 @sio.on("reload_heat_list")
-async def reload_heat_list_socket(sid):
+async def reload_heat_list(sid):
     race_manager.load_heat()
     logger.info("Heat list reloaded")
     await sio.emit("heat_list", race_manager.all_heat_list[1:])
 
 
 @sio.on("download_heat_list")
-async def download_heat_list_socket(sid):
+async def download_heat_list(sid):
     logger.info("Heat list download started")
     get_heat_list()
     heat_list = load_heat_list()
@@ -65,7 +65,7 @@ async def download_heat_list_socket(sid):
 
 
 @sio.on("upload_log")
-def upload_log_socket(sid):
+def upload_log(sid):
     logger.info("Starting log upload")
     try:
         script_path = os.path.join(config.BASE_DIR, "0_log_upload.sh")
