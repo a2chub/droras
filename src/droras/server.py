@@ -80,11 +80,6 @@ def index():
     return FileResponse(os.path.join(config.STATIC_DIR, "index.html"))
 
 
-@app.get("/telop/")
-def index():
-    return FileResponse(os.path.join(config.STATIC_DIR, "telop", "index.html"))
-
-
 @app.get("/{heat_index}")
 async def index(heat_index: int):
     race_manager.set_current_heat(heat_index)

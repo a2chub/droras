@@ -18,6 +18,7 @@ export default defineConfig({
 			input: {
 				"": path.resolve(__dirname, "src/pages/index.html"),
 				telop: path.resolve(__dirname, "src/pages/telop/index.html"),
+				heatno: path.resolve(__dirname, "src/pages/heatno/index.html"),
 			},
 		},
 	},
