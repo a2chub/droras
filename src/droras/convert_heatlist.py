@@ -2,6 +2,9 @@ import csv
 import logging
 
 import requests
+from requests import Session
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 
 logger = logging.getLogger(__name__)
 
@@ -11,14 +14,22 @@ url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQSIb1_Hys9ai97Mlf9LnxHaS
 def download_heat_list(url=url):
     logger.info(f"Starting get heat list from url: {url}")
 
-    response = requests.get(url)
+    session = Session()
+    retries = Retry(total=5, backoff_factor=1, status_forcelist=[502, 503, 504])
+    session.mount("https://", HTTPAdapter(max_retries=retries))
 
-    if response.status_code == 200:
-        with open("log/heat_list.csv", "wb") as file:
-            file.write(response.content)
-        logger.info("Sucessfully downloaded heat list")
-    else:
-        logger.error(f"Failed to download heat list. status code: {response.status_code}")
+    try:
+        response = session.get(url, timeout=(10, 30))
+
+        if response.status_code == 200:
+            with open("log/heat_list.csv", "wb") as file:
+                file.write(response.content)
+            logger.info("Successfully downloaded heat list")
+        else:
+            logger.error(f"Failed to download heat list. status code: {response.status_code}")
+
+    except requests.exceptions.RequestException as e:
+        logger.error(f"Request failed: {e}")
 
     return load_heat_list()
 
