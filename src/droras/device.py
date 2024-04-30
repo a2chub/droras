@@ -62,7 +62,7 @@ def start_sound():
         PLAY_FLG = False
         # GPIO.output(27,  0)
         led_on()
-        random_start = pygame.mixer.Sound("snd/pipipi.wav")
+        random_start = pygame.mixer.Sound("sound/pipipi.wav")
         random_start.play()
         dur_time = float(randint(30, 50)) / 10.0
         sleep(dur_time)
@@ -73,7 +73,7 @@ def start_sound():
 
 
 def start_signal():
-    start_alert = pygame.mixer.Sound("snd/po-n.wav")
+    start_alert = pygame.mixer.Sound("sound/po-n.wav")
     start_alert.play()
     sleep(0.35)
     # GPIO.output(27,  1)
