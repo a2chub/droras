@@ -1,0 +1,10 @@
+[Unit]
+Description=droras
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/home/saqoosha/droras/run.sh
+
+[Install]
+WantedBy=multi-user.target
