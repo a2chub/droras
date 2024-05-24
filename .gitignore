@@ -14,7 +14,7 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
+# lib/
 lib64/
 parts/
 sdist/
@@ -110,3 +110,4 @@ jdl-main-key.json
 /static/pilots.csv
 .firebase
 jdl_lib/log/
+log/

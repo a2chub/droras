@@ -1,0 +1,1 @@
+import{u as r,j as e,c as n}from"./index-DH_iGQMS.js";function o(){const{currentHeat:t}=r();return t>0?e.jsx("div",{className:"my-1 mx-2 text-4xl font-[Impact]",children:t}):null}n.createRoot(document.getElementById("root")).render(e.jsx(o,{}));

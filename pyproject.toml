@@ -1,0 +1,33 @@
+[project]
+name = "droras"
+version = "0.1.0"
+description = "Add your description here"
+authors = [
+    { name = "a2c", email = "a2cgle@gmail.com" },
+    { name = "Saqoosha", email = "a@saqoo.sh" }
+]
+dependencies = [
+    "uvicorn>=0.29.0",
+    "fastapi>=0.110.1",
+    "requests>=2.31.0",
+    "google-cloud-firestore>=2.16.0",
+    "python-socketio>=5.11.2",
+    "pygame>=2.5.2",
+    "gpiozero>=2.0.1",
+]
+readme = "README.md"
+requires-python = ">= 3.12"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.rye]
+managed = true
+dev-dependencies = []
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/droras"]

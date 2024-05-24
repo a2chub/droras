@@ -1,6 +1,8 @@
 #!/bin/bash
 
-source `pwd`/venv/bin/activate
-export GOOGLE_APPLICATION_CREDENTIALS=`pwd`"/jdl_lib/jdl-main-key.json"
+# Move to the directory where this script is located
+cd "$(dirname "$0")"
 
-python main.py
+export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/jdl-main-key.json
+
+$(pwd)/.venv/bin/python -m droras
