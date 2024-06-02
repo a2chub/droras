@@ -3,6 +3,10 @@ import os
 
 from . import config
 
+if not os.path.exists(config.LOG_DIR):
+    os.makedirs(config.LOG_DIR)
+
+
 # logging
 logging.basicConfig(
     level=logging.DEBUG,
