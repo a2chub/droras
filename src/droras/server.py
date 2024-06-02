@@ -8,7 +8,7 @@ from fastapi import FastAPI
 from starlette.responses import FileResponse
 
 from . import config
-from .convert_heatlist import download_heat_list
+from . import convert_heatlist
 from .race_manager import RaceManager
 
 logger = logging.getLogger(__name__)
@@ -34,13 +34,13 @@ def disconnect(sid):
     logger.info(f"Disconnect: {sid}")
 
 
-@sio.on("start_heat")
+@sio.event
 def start_heat(sid):
     logger.info(f"Start heat: {sid}")
     race_manager.start()
 
 
-@sio.on("set_current_heat")
+@sio.event
 async def set_current_heat(sid, data):
     heat_index = int(data)
     logger.info(f"Set current heat: {heat_index}")
@@ -48,22 +48,22 @@ async def set_current_heat(sid, data):
     await sio.emit("current_heat", heat_index)
 
 
-@sio.on("reload_heat_list")
+@sio.event
 async def reload_heat_list(sid):
     race_manager.load_heat()
     logger.info("Heat list reloaded")
     await sio.emit("heat_list", race_manager.all_heat_list[1:])
 
 
-@sio.on("download_heat_list")
-async def download_heat_list_handler(sid):
+@sio.event
+async def download_heat_list(sid):
     logger.info("Heat list download started")
-    heat_list = download_heat_list()
+    heat_list = convert_heatlist.download_heat_list()
     logger.info(f"Heat list download completed: {pprint.pformat(heat_list)}")
     await sio.emit("heat_list", race_manager.all_heat_list[1:])
 
 
-@sio.on("upload_log")
+@sio.event
 def upload_log(sid):
     logger.info("Starting log upload")
     try:
