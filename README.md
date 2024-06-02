@@ -20,14 +20,14 @@ Drone Race Random Start System
 Python 仮想環境とモジュール管理に rye つかってます。
 
 ```sh
-curl -sSf https://rye-up.com/get | bash
+curl -sSf https://rye.astral.sh/get | bash
 ```
 
 ### アプリ本体
 
 ```sh
 git clone https://github.com/a2chub/droras.git
-git checkout refactor-all
+cd droras
 rye sync
 ```
 
