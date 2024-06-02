@@ -56,7 +56,7 @@ async def reload_heat_list(sid):
 
 
 @sio.on("download_heat_list")
-async def download_heat_list(sid):
+async def download_heat_list_handler(sid):
     logger.info("Heat list download started")
     heat_list = download_heat_list()
     logger.info(f"Heat list download completed: {pprint.pformat(heat_list)}")
