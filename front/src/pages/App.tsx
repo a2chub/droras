@@ -3,6 +3,8 @@ import { useCallback, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useSocket } from "@/lib/socket";
 import { ProgressBar } from "./ProgressBar";
+import { Toaster } from "@/components/ui/toaster";
+import { useToast } from "@/components/ui/use-toast";
 
 const TableRow = (params: {
 	heatNo: number;
@@ -66,6 +68,21 @@ function App() {
 		setTimerEnabled(false);
 		setCurrentHeat(((currentHeat - 1 + 1) % numHeats) + 1);
 	}, [currentHeat, numHeats, setCurrentHeat]);
+
+	const [downloading, setDownloading] = useState(false);
+	const { toast } = useToast();
+
+	const handleDownloadHeatList = useCallback(async () => {
+		setDownloading(true);
+		const success = await downloadHeatList();
+		setDownloading(false);
+		toast({
+			title: "ダウンロード",
+			description: success
+				? "ヒートリストのダウンロードに成功しました"
+				: "ヒートリストのダウンロードに失敗しました",
+		});
+	}, [downloadHeatList, toast]);
 
 	const c = currentHeat - 1; // to zero-based to lookup from the heat list
 	const prev = heatList[(c + numHeats - 1) % numHeats];
@@ -165,16 +182,34 @@ function App() {
 			</div>
 			<hr className="my-6" />
 			<div className="flex justify-center gap-4 text-gray-400">
-				<Button variant="outline" size="sm" onClick={reloadHeatList}>
+				<Button variant="outline" size="sm" onClick={async () => {
+					const response = await reloadHeatList();
+					toast({
+						title: "リロード",
+						description: response ? "ヒートリストの再読み込みに成功しました" : "ヒートリストの再読み込みに失敗しました",
+					});
+				}}>
 					ヒートリスト再読み込み
 				</Button>
-				<Button variant="outline" size="sm" onClick={downloadHeatList}>
+				<Button
+					variant="outline"
+					size="sm"
+					onClick={handleDownloadHeatList}
+					disabled={downloading}
+				>
 					ヒートリスト再ダウンロード
 				</Button>
-				<Button variant="outline" size="sm" onClick={uploadLog}>
+				<Button variant="outline" size="sm" onClick={async () => {
+					const response = await uploadLog();
+					toast({
+						title: "アップロード",
+						description: response ? "ログのアップロードに成功しました" : "ログのアップロードに失敗しました",
+					});
+				}}>
 					ログアップロード
 				</Button>
 			</div>
+			<Toaster />
 		</div>
 	);
 }

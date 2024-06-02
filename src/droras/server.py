@@ -49,28 +49,32 @@ async def set_current_heat(sid, data):
 
 
 @sio.event
-async def reload_heat_list(sid):
+async def reload_heat_list(sid, data):
     race_manager.load_heat()
     logger.info("Heat list reloaded")
     await sio.emit("heat_list", race_manager.all_heat_list[1:])
+    return True
 
 
 @sio.event
-async def download_heat_list(sid):
+async def download_heat_list(sid, data):
     logger.info("Heat list download started")
     heat_list = convert_heatlist.download_heat_list()
     logger.info(f"Heat list download completed: {pprint.pformat(heat_list)}")
     await sio.emit("heat_list", race_manager.all_heat_list[1:])
+    return True
 
 
 @sio.event
-def upload_log(sid):
+def upload_log(sid, data):
     logger.info("Starting log upload")
     try:
         script_path = os.path.join(config.BASE_DIR, "0_log_upload.sh")
         subprocess.call(script_path, shell=True)
+        return True
     except:
         logger.error("Failed to upload log file")
+        return False
 
 
 # static files

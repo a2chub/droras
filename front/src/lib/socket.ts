@@ -43,15 +43,27 @@ export const useSocket = () => {
 	};
 
 	const reloadHeatList = () => {
-		socket.emit("reload_heat_list");
+		return new Promise((resolve) => {
+			socket.emit("reload_heat_list", {}, (response: boolean) => {
+				resolve(response);
+			});
+		});
 	};
 
 	const downloadHeatList = () => {
-		socket.emit("download_heat_list");
+		return new Promise((resolve) => {
+			socket.emit("download_heat_list", {}, (response: boolean) => {
+				resolve(response);
+			});
+		});
 	};
 
 	const uploadLog = () => {
-		socket.emit("upload_log");
+		return new Promise((resolve) => {
+			socket.emit("upload_log", {}, (response: boolean) => {
+				resolve(response);
+			});
+		});
 	};
 
 	return {
