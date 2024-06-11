@@ -8,7 +8,11 @@ from urllib3.util.retry import Retry
 
 logger = logging.getLogger(__name__)
 
-url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQSIb1_Hys9ai97Mlf9LnxHaSFdWciZ2IC9kCTMbEQAHe7lvuM-7D-_8iKOtwibWMFL1ff1bP-keLJm/pub?gid=554938252&single=true&output=csv"
+# スプシの標準機能でCSV出力 URL
+#url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQSIb1_Hys9ai97Mlf9LnxHaSFdWciZ2IC9kCTMbEQAHe7lvuM-7D-_8iKOtwibWMFL1ff1bP-keLJm/pub?gid=554938252&single=true&output=csv"
+
+# GASのdoGetでCSV出力URL
+url = "https://script.google.com/macros/s/AKfycbwUKwnl136z5HUvhsN7amnuis_GrTmyvZbgRF1GpXU1vKycaHjBXgLyKD8zuK7hIG-c/exec"
 
 
 def download_heat_list(url=url):
