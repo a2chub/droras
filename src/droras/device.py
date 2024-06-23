@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import os
 import logging
 from datetime import datetime
 from random import randint
@@ -15,14 +16,6 @@ logger = logging.getLogger(__name__)
 four = LED(26)
 pygame.init()
 pygame.mixer.init()
-
-"""
-scrn_flag = 0
-if scrn_flag == 0:
-  screen = pygame.display.set_mode((320, 320))
-  pygame.display.set_caption("Droras: JDL Start System")
-"""
-
 
 def led_on():
     # turn relay J2 on
@@ -62,7 +55,9 @@ def start_sound():
         PLAY_FLG = False
         # GPIO.output(27,  0)
         led_on()
-        random_start = pygame.mixer.Sound("sound/pipipi.wav")
+        _snd_pipipi = get_resource_path("sound", "pipipi.wav")
+        print(_snd_pipipi)
+        random_start = pygame.mixer.Sound(_snd_pipipi)
         random_start.play()
         dur_time = float(randint(30, 50)) / 10.0
         sleep(dur_time)
@@ -73,12 +68,18 @@ def start_sound():
 
 
 def start_signal():
-    start_alert = pygame.mixer.Sound("sound/po-n.wav")
+    _snd_pon = get_resource_path("sound", "po-n.wav")
+    print(_snd_pon)
+    start_alert = pygame.mixer.Sound(_snd_pon)
     start_alert.play()
     sleep(0.35)
     # GPIO.output(27,  1)
     led_off()
 
+def get_resource_path(resoure="", file_name=""):
+    base_path = os.path.dirname(os.path.abspath(__file__))
+    resoure_path = os.path.join(base_path, "..", "..", resoure, file_name)
+    return resoure_path
 
 if __name__ == "__main__":
     start_sound()
