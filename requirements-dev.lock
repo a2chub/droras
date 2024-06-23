@@ -81,6 +81,8 @@ python-socketio==5.11.2
 requests==2.31.0
     # via droras
     # via google-api-core
+rpi-gpio==0.7.1
+    # via droras
 rsa==4.9
     # via google-auth
 setuptools==69.5.1
