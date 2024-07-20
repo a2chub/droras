@@ -5,6 +5,7 @@ import subprocess
 
 import socketio
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from starlette.responses import FileResponse
 
 from . import config
@@ -17,6 +18,14 @@ logger = logging.getLogger(__name__)
 sio = socketio.AsyncServer(async_mode="asgi", cors_allowed_origins="*")
 sio_app = socketio.ASGIApp(socketio_server=sio, static_files={"/": config.STATIC_DIR})
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 race_manager = RaceManager()
 
@@ -81,6 +90,11 @@ def upload_log(sid, data):
 @app.get("/")
 def index():
     return FileResponse(os.path.join(config.STATIC_DIR, "index.html"))
+
+
+@app.get("/current_pilots")
+async def current_pilots():
+    return race_manager.get_current_pilots()
 
 
 @app.get("/{heat_index}")

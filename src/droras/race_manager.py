@@ -65,3 +65,8 @@ class RaceManager:
             logger.info(f"Heat {heat_id} successfully updated on Firestore")
         except Exception as e:
             logger.error(f"Failed to update heat {heat_id} on Firestore: {e}")
+
+    def get_current_pilots(self):
+        current_pilots_csv = get_heat_pilots(self.current_heat_index, self.all_heat_list)
+        current_pilots_array = current_pilots_csv.split(",")
+        return current_pilots_array

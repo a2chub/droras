@@ -1,12 +1,27 @@
-import { useSocket } from "@/lib/socket";
+import { useEffect, useState } from "react";
+
+const address = import.meta.env.DEV ? "http://localhost:8000" : "";
 
 export function PilotsTelop() {
-	const { currentHeat, heatList } = useSocket();
+	const [pilots, setPilots] = useState<string[]>([]);
 
-	if (currentHeat <= 0) return null;
+	useEffect(() => {
+		async function fetchPilots() {
+			try {
+				const response = await fetch(`${address}/current_pilots`);
+				const data = await response.json();
+				console.log(data);
+				setPilots(data);
+			} catch (error) {
+				console.error("Failed to fetch pilots:", error);
+			}
+		}
 
-	const heatIndex = currentHeat - 1;
-	const pilots = heatList[heatIndex] ? heatList[heatIndex].pilots : [];
+		fetchPilots();
+		const intervalId = setInterval(fetchPilots, 2000);
+
+		return () => clearInterval(intervalId);
+	}, []);
 
 	return (
 		<div className="flex justify-around w-full my-2 text-xl font-bold">
