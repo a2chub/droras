@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
-const DURATION = 120;
+const DURATION = 150;
 
 export function ProgressBar(params: {
 	enabled: boolean;
