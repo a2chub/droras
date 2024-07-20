@@ -1,0 +1,1 @@
+import{j as e,c as r}from"./index-B5yB3MSH.js";import{u as n}from"./socket-B3GkYavm.js";function o(){const{currentHeat:t}=n();return t>0?e.jsx("div",{className:"my-1 mx-2 text-4xl font-[Impact]",children:t}):null}r.createRoot(document.getElementById("root")).render(e.jsx(o,{}));
