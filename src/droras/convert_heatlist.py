@@ -50,7 +50,7 @@ def load_heat_list():
                 # heat number をキーとして、辞書にラウンドデータを追加
                 by_heat.setdefault(row[3], []).append(row)
 
-        for i in range(1, len(by_heat.keys())):
+        for i in range(1, len(by_heat) + 1):
             heat_names = []
             pilots = by_heat[str(i)]
 

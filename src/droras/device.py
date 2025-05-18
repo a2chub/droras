@@ -76,10 +76,11 @@ def start_signal():
     # GPIO.output(27,  1)
     led_off()
 
-def get_resource_path(resoure="", file_name=""):
+def get_resource_path(resource="", file_name=""):
+    """Return absolute path for a resource file."""
     base_path = os.path.dirname(os.path.abspath(__file__))
-    resoure_path = os.path.join(base_path, "..", "..", resoure, file_name)
-    return resoure_path
+    resource_path = os.path.join(base_path, "..", "..", resource, file_name)
+    return resource_path
 
 if __name__ == "__main__":
     start_sound()
