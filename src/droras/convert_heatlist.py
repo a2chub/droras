@@ -39,7 +39,7 @@ def download_heat_list(url=url):
 
 
 def load_heat_list():
-    heat_name_list = [["E1", "F1", "F4", "HeatNo"]]
+    heat_name_list = [["R2", "F1", "R4", "R5", "HeatNo"]]
 
     try:
         by_heat = {}

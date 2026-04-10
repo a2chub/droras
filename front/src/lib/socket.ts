@@ -20,8 +20,8 @@ export const useSocket = () => {
 		function onHeatList(rawHeatList: string[][]) {
 			setHeatList(
 				rawHeatList.map((row: string[]) => ({
-					className: row[4],
-					pilots: row.slice(0, 3),
+					className: row[5],
+					pilots: row.slice(0, 4),
 				})),
 			);
 		}

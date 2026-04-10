@@ -34,6 +34,9 @@ export function PilotsTelop() {
 			<div className="w-full text-center">
 				{pilots.length > 2 ? pilots[2] : ""}
 			</div>
+			<div className="w-full text-center">
+				{pilots.length > 3 ? pilots[3] : ""}
+			</div>
 		</div>
 	);
 }

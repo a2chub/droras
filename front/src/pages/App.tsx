@@ -25,6 +25,7 @@ const TableRow = (params: {
 			<td className="text-center">{params.pilots[0]}</td>
 			<td className="text-center">{params.pilots[1]}</td>
 			<td className="text-center">{params.pilots[2]}</td>
+			<td className="text-center">{params.pilots[3]}</td>
 		</tr>
 	);
 };
@@ -108,15 +109,16 @@ function App() {
 	}, [handleStart, goPrev, goNext]);
 
 	return (
-		<div className="container max-w-screen-md pt-4 mx-auto text-lg">
+		<div className="container max-w-screen-lg pt-4 mx-auto text-lg">
 			<table className="w-full mb-6 table-auto">
 				<thead>
 					<tr className="border-b-2">
 						<th className="py-3">Heat</th>
 						<th>Class</th>
-						<th>E1 / 5705</th>
+						<th>R2 / 5695</th>
 						<th>F1 / 5740</th>
-						<th>F4 / 5800</th>
+						<th>R4 / 5769</th>
+						<th>R5 / 5806</th>
 					</tr>
 					{prev && (
 						<TableRow
