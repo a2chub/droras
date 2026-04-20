@@ -10,7 +10,7 @@ Drone Race Random Start System
 - Web画面上にヒート毎のPilotを表示（前後ヒート含め3ヒート分）
 - サーバー側は Python, FastAPI
 - Web側は Vite, React
-- サーバーと Web は Scoket.IO で同期
+- サーバーと Web は Socket.IO で同期
 - 現在のヒート番号のみ Firestore に保存して <https://info.japandroneleague.com/> と同期
 
 ## インストール
@@ -100,8 +100,7 @@ sudo journalctl -u droras.service -f -n 100
 
 ### サーバー側
 
-`run.sh` で起動すれば uvicorn が reload=True になってるのでファイル変更すれば自働反映
-
+`run.sh` で起動すれば uvicorn が reload=True になってるのでファイル変更すれば自動反映
 ### Web側
 
 - `front` ディレクトリ内で開発（ラズパイだとちょっと重いかも…
