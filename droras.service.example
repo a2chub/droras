@@ -5,6 +5,8 @@ After=network.target
 [Service]
 Type=simple
 ExecStart=/home/saqoosha/droras/run.sh
+# GPIO を強制有効化 (初期化失敗時は起動エラーにする。未設定なら auto 検出)
+Environment=DRORAS_GPIO=on
 
 [Install]
 WantedBy=multi-user.target

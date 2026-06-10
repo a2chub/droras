@@ -102,6 +102,25 @@ sudo journalctl -u droras.service -f -n 100
 
 `run.sh` で起動すれば uvicorn が reload=True になってるのでファイル変更すれば自働反映
 
+#### ハードウェア (GPIO / 音声)
+
+`DRORAS_GPIO` 環境変数で GPIO シグナルの実装を切り替えられる。
+
+| 値 | 挙動 |
+|----|------|
+| `auto` (未設定時のデフォルト) | GPIO 初期化を試して、ダメなら警告ログ出して Null 実装にフォールバック |
+| `on` | GPIO を強制。初期化失敗は起動エラー (本番ラズパイ向け) |
+| `off` | Null 実装を強制 (GPIO も音声も鳴らさない) |
+| `mock` | gpiozero の mock ピンファクトリで GPIO コード経路を検証 |
+
+音声は GPIO とは独立に判定してて、macOS でも普通にスピーカーから実音声が鳴る (オーディオデバイスが無ければ自動で Null になる)。
+
+スタートシーケンス (LED + 音) だけを単独でテストしたいときは:
+
+```sh
+python -m droras.hardware
+```
+
 ### Web側
 
 - `front` ディレクトリ内で開発（ラズパイだとちょっと重いかも…

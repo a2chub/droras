@@ -2,6 +2,8 @@ import csv
 import logging
 
 import requests
+
+from . import config
 from requests import Session
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
@@ -26,7 +28,7 @@ def download_heat_list(url=url):
         response = session.get(url, timeout=(10, 30))
 
         if response.status_code == 200:
-            with open("log/heat_list.csv", "wb") as file:
+            with open(config.HEAT_LIST_CSV, "wb") as file:
                 file.write(response.content)
             logger.info("Successfully downloaded heat list")
         else:
@@ -44,7 +46,7 @@ def load_heat_list():
     try:
         by_heat = {}
 
-        with open("log/heat_list.csv") as f:
+        with open(config.HEAT_LIST_CSV) as f:
             reader = csv.reader(f)
             for row in reader:
                 # heat number をキーとして、辞書にラウンドデータを追加

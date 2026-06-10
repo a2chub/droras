@@ -2,6 +2,7 @@ import logging
 import os
 import pprint
 import subprocess
+from contextlib import asynccontextmanager
 
 import socketio
 from fastapi import FastAPI
@@ -10,14 +11,26 @@ from starlette.responses import FileResponse
 
 from . import config
 from . import convert_heatlist
+from .hardware import create_audio_player, create_start_signal
 from .race_manager import RaceManager
 
 logger = logging.getLogger(__name__)
 
+race_manager: RaceManager | None = None
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    global race_manager
+    race_manager = RaceManager(create_start_signal(), create_audio_player())
+    race_manager.load_heat()
+    yield
+
+
 # app main
 sio = socketio.AsyncServer(async_mode="asgi", cors_allowed_origins="*")
 sio_app = socketio.ASGIApp(socketio_server=sio, static_files={"/": config.STATIC_DIR})
-app = FastAPI()
+app = FastAPI(lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -26,8 +39,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-race_manager = RaceManager()
 
 
 # SocketIO events
@@ -44,9 +55,9 @@ def disconnect(sid):
 
 
 @sio.event
-def start_heat(sid):
+async def start_heat(sid):
     logger.info(f"Start heat: {sid}")
-    race_manager.start()
+    await race_manager.start()
 
 
 @sio.event
@@ -81,8 +92,8 @@ def upload_log(sid, data):
         script_path = os.path.join(config.BASE_DIR, "0_log_upload.sh")
         subprocess.call(script_path, shell=True)
         return True
-    except:
-        logger.error("Failed to upload log file")
+    except (OSError, subprocess.SubprocessError):
+        logger.error("Failed to upload log file", exc_info=True)
         return False
 
 
@@ -98,12 +109,9 @@ async def current_pilots():
 
 
 @app.get("/{heat_index}")
-async def index(heat_index: int):
+async def heat_index_page(heat_index: int):
     race_manager.set_current_heat(heat_index)
     return FileResponse(os.path.join(config.STATIC_DIR, "index.html"))
 
 
 app.mount("/", sio_app)
-
-
-race_manager.load_heat()
